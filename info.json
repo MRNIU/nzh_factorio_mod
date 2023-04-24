@@ -1,0 +1,13 @@
+{
+    "name": "nzh_factorio_mod",
+    "version": "0.0.1",
+    "title": "nzh_factorio_mod",
+    "author": "NZH",
+    "contact": "zone.niuzh@gmail.com",
+    "homepage": "",
+    "description": "nzh_factorio_mod desc",
+    "factorio_version": "1.1",
+    "dependencies": [
+        "base >= 1.1.0"
+    ]
+}
