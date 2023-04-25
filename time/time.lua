@@ -5,7 +5,9 @@
 
 require("utils")
 
+-- 是否绘制 gui
 local display = true
+-- 将当前游戏速度与上次使用的游戏速度互换
 local speed = 1
 
 --------------------------------------------------------------------------------------
@@ -39,15 +41,8 @@ local function build_gui(_player)
 			font_color = default,
 			style = "nzh_button_style"
 		})
-		gui.add({
-			type = "button",
-			name = "nzh_time_button_pause",
-			caption = "II",
-			font_color = default,
-			style = "nzh_button_style"
-		})
 	end
-	return (gui)
+	return gui
 end
 
 --------------------------------------------------------------------------------------
@@ -153,9 +148,6 @@ function NZH_time_on_gui_click(_event)
 			update_guis()
 		elseif _event.element.name == "nzh_time_button_speed" then
 			if game.speed == 1 then game.speed = speed else game.speed = 1 end
-			update_guis()
-		elseif _event.element.name == "nzh_time_button_pause" then
-			
 			update_guis()
 		end
 	else

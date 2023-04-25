@@ -9,7 +9,7 @@ Factorio's mod
 
 - [x] 游戏速度调整，基于 TimeTools
   
-  改变游戏速度，减慢、加快、冻结。
+  改变游戏速度，减慢、加快。
 
 - [ ] 手搓一切，基于 hand_craft_everything
 
