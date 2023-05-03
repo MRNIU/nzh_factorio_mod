@@ -6,3 +6,4 @@
 require("utils")
 require("prototypes.styles")
 require("tinyequipment/data")
+require("pumpanywhere.data")
