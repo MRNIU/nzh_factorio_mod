@@ -5,11 +5,13 @@
 
 
 -- 游戏速度
-require("time/time")
+require("time/control")
+require("startup.control")
 
 --------------------------------------------------------------------------------------
 local function nzh_on_init()
     NZH_time_on_init()
+    NZH_startup_on_init()
 end
 
 --------------------------------------------------------------------------------------
