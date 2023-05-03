@@ -23,7 +23,6 @@ end
 
 --------------------------------------------------------------------------------------
 local function nzh_on_configuration_changed(_data)
-    NZH_time_on_configuration_changed(_data)
     NZH_longreach_on_configuration_changed()
 end
 

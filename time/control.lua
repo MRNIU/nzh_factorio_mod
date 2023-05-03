@@ -109,22 +109,6 @@ function NZH_time_on_load()
 end
 
 --------------------------------------------------------------------------------------
-function NZH_time_on_configuration_changed(_data)
-	-- detect any mod or game version change
-	if _data.mod_changes ~= nil then
-		local changes = data.mod_changes[nzh_mod_name]
-		if changes ~= nil then
-			-- migrations
-			for _, player in pairs(game.players) do
-				if player.gui.top.timebar_frame then player.gui.top.timebar_frame.destroy() end -- destroy old bar
-			end
-			init_players()
-			update_guis()
-		end
-	end
-end
-
---------------------------------------------------------------------------------------
 function NZH_time_on_tick(_event)
 	if speed > max_speed then
 		-- User changed the speed mid acceleration or on the fly
