@@ -3,6 +3,4 @@
 --
 -- data.lua for MRNIU/nzh_factorio_mod.
 
-require("utils")
-require("prototypes.styles")
-require("tinyequipment/data")
+require("data")

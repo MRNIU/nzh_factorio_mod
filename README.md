@@ -25,7 +25,7 @@ Factorio's mod
 - [ ] 油井规划 WellPlanner_1.1.5
 - [ ] 无水管道泵 PumpAnywhere_0.1.10
 - [ ] 穿墙 Squeak Through_1.8.2
-- [ ] 更小的模块装备 Tiny_Equipment_1.1.0
+- [x] 更小的模块装备 Tiny_Equipment_1.1.0
 - [ ] 夜视仪 VilsClearNightvision_1.0.1
 - [ ] 自适应移速 adaptive_movement_speed_0.3.0
 - [ ] 操作距离
