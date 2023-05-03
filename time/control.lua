@@ -1,7 +1,7 @@
 -- This file is a part of MRNIU/nzh_factorio_mod
 -- (https://github.com/MRNIU/nzh_factorio_mod).
 --
--- time.lua for MRNIU/nzh_factorio_mod.
+-- control.lua for MRNIU/nzh_factorio_mod.
 
 require("utils")
 
