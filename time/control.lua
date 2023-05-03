@@ -9,6 +9,7 @@ require("utils")
 local display = true
 -- 将当前游戏速度与上次使用的游戏速度互换
 local speed = 1
+local max_speed = 128
 
 --------------------------------------------------------------------------------------
 local function build_gui(_player)
@@ -124,9 +125,9 @@ end
 
 --------------------------------------------------------------------------------------
 function NZH_time_on_tick(_event)
-	if speed > settings.global["nzh_time_int_maximum_speed"].value then
+	if speed > max_speed then
 		-- User changed the speed mid acceleration or on the fly
-		speed = settings.global["nzh_time_int_maximum_speed"].value
+		speed = max_speed
 		if game.speed > speed then
 			game.speed = speed
 			update_guis()
@@ -143,7 +144,7 @@ function NZH_time_on_gui_click(_event)
 			if game.speed ~= 1 then speed = game.speed end
 			update_guis()
 		elseif _event.element.name == "nzh_time_button_faster" then
-			if game.speed < settings.global["nzh_time_int_maximum_speed"].value then game.speed = game.speed * 2 end
+			if game.speed < max_speed then game.speed = game.speed * 2 end
 			if game.speed ~= 1 then speed = game.speed end
 			update_guis()
 		elseif _event.element.name == "nzh_time_button_speed" then
@@ -177,8 +178,8 @@ function nzh_time_interface.setspeed(_speed)
 	if _speed == nil then _speed = 1 end
 	_speed = math.floor(_speed) -- ensure integer
 	if _speed < 1 then _speed = 1 end
-	if _speed > settings.global["nzh_time_int_maximum_speed"].value then
-		_speed = settings.global["nzh_time_int_maximum_speed"].value
+	if _speed > max_speed then
+		_speed = max_speed
 	end
 	global.speed = _speed
 	update_guis()
