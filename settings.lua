@@ -4,4 +4,3 @@
 -- settings.lua for MRNIU/nzh_factorio_mod.
 
 require("time/settings")
-require("handcraft/settings")

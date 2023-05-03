@@ -4,3 +4,4 @@
 -- data.lua for MRNIU/nzh_factorio_mod.
 
 require("data")
+require("handcraft.data-final-fixes")
