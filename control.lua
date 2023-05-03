@@ -7,11 +7,13 @@
 -- 游戏速度
 require("time/control")
 require("startup.control")
+require("longreach.control")
 
 --------------------------------------------------------------------------------------
 local function nzh_on_init()
     NZH_time_on_init()
     NZH_startup_on_init()
+    NZH_longreach_on_init()
 end
 
 --------------------------------------------------------------------------------------
@@ -22,6 +24,7 @@ end
 --------------------------------------------------------------------------------------
 local function nzh_on_configuration_changed(_data)
     NZH_time_on_configuration_changed(_data)
+    NZH_longreach_on_configuration_changed()
 end
 
 --------------------------------------------------------------------------------------

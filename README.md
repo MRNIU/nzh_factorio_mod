@@ -11,7 +11,7 @@ Factorio's mod
   
   改变游戏速度，减慢、加快。
 
-- [ ] 手搓一切，基于 hand_craft_everything
+- [x] 手搓一切，基于 hand_craft_everything
 
 - [ ] 火车自动上色，基于 Automatic Train Painter
 
@@ -23,7 +23,7 @@ Factorio's mod
 - [ ] 视野与地图缩放 Kux-Zooming_2.2.8
 - [ ] 采矿规划 mining-patch-planner_1.4.3
 - [ ] 油井规划 WellPlanner_1.1.5
-- [ ] 无水管道泵 PumpAnywhere_0.1.10
+- [x] 无水管道泵 PumpAnywhere_0.1.10
 - [ ] 穿墙 Squeak Through_1.8.2
 - [x] 更小的模块装备 Tiny_Equipment_1.1.0
 - [x] 开局装备
@@ -50,9 +50,9 @@ Factorio's mod
 |     配电站     | 114  |
 |      雷达      |  50  |
 
-- [ ] 夜视仪 VilsClearNightvision_1.0.1
+- [x] 夜视仪 VilsClearNightvision_1.0.1
 - [ ] 自适应移速 adaptive_movement_speed_0.3.0
-- [ ] 操作距离
+- [x] 操作距离 themightygugi_longreach_2.1.1
 - [ ] 地图模式操作
 
 ## 模组开发
