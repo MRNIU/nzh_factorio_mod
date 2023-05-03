@@ -12,15 +12,15 @@ function NZH_startup_on_init()
 		-- 能量装甲 MK2
 		created_items["power-armor-mk2"] = 1
 		-- 能量盾模块 MK2
-		created_items["energy-shield-mk2-equipment"] = 20
+		created_items["energy-shield-mk2-equipment"] = 30
 		-- 外骨骼模块
-		created_items["exoskeleton-equipment"] = 20
+		created_items["exoskeleton-equipment"] = 40
 		-- 聚变堆模块
-		created_items["fusion-reactor-equipment"] = 20
+		created_items["fusion-reactor-equipment"] = 30
 		-- 激光防御模块
-		created_items["personal-laser-defense-equipment"] = 20
+		created_items["personal-laser-defense-equipment"] = 30
 		-- 机器人指令模块
-		created_items["personal-roboport-mk2-equipment"] = 18
+		created_items["personal-roboport-mk2-equipment"] = 28
 		-- 夜视模块
 		created_items["night-vision-equipment"] = 1
 		-- 锚定模块
@@ -40,5 +40,13 @@ function NZH_startup_on_init()
 		created_items["substation"] = 114
 		-- 雷达
 		created_items["radar"] = 50
+		-- 火箭弹
+		created_items["rocket"] = 2400
+		-- 高爆火箭弹
+		created_items["explosive-rocket"] = 2400
+		-- 贫铀穿甲弹
+		created_items["uranium-rounds-magazine"] = 1200
+		-- 冲锋枪
+		created_items["submachine-gun"] = 1
 		remote.call("freeplay", "set_created_items", created_items)
 end
