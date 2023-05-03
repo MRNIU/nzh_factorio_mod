@@ -29,6 +29,6 @@ cp -r ./LICENSE ./nzh_factorio_mod
 cp -r ./README.md ./nzh_factorio_mod
 cp -r ./thumbnail.png ./nzh_factorio_mod
 
-zip nzh_factorio_mod.zip nzh_factorio_mod
+zip -mrv nzh_factorio_mod.zip nzh_factorio_mod
 
 rm -rf nzh_factorio_mod
