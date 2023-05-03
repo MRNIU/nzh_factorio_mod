@@ -10,6 +10,7 @@ local display = true
 -- 将当前游戏速度与上次使用的游戏速度互换
 local speed = 1
 local max_speed = 128
+local nzh_mod_name = "nzh_factorio_mod"
 
 --------------------------------------------------------------------------------------
 local function build_gui(_player)
@@ -111,7 +112,7 @@ end
 function NZH_time_on_configuration_changed(_data)
 	-- detect any mod or game version change
 	if _data.mod_changes ~= nil then
-		local changes = data.mod_changes[NZH_mod_name]
+		local changes = data.mod_changes[nzh_mod_name]
 		if changes ~= nil then
 			-- migrations
 			for _, player in pairs(game.players) do
