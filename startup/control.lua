@@ -38,5 +38,7 @@ function NZH_startup_on_init()
 		created_items["medium-electric-pole"] = 50
 		created_items["big-electric-pole"] = 50
 		created_items["substation"] = 114
+		-- 雷达
+		created_items["radar"] = 50
 		remote.call("freeplay", "set_created_items", created_items)
 end

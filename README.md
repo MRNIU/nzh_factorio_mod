@@ -48,7 +48,7 @@ Factorio's mod
 |    中电线杆    |  50  |
 |    大电线杆    |  50  |
 |     配电站     | 114  |
-|                |      |
+|      雷达      |  50  |
 
 - [ ] 夜视仪 VilsClearNightvision_1.0.1
 - [ ] 自适应移速 adaptive_movement_speed_0.3.0
