@@ -12,7 +12,6 @@ require("longreach.control")
 --------------------------------------------------------------------------------------
 local function nzh_on_init()
     NZH_time_on_init()
-    NZH_startup_on_init()
     NZH_longreach_on_init()
 end
 
@@ -25,6 +24,7 @@ end
 --------------------------------------------------------------------------------------
 local function nzh_on_player_created(_event)
     NZH_time_on_player_created(_event)
+    NZH_startup_on_player_created(_event)
 end
 
 --------------------------------------------------------------------------------------
@@ -43,9 +43,15 @@ local function nzh_on_gui_click(_event)
 end
 
 --------------------------------------------------------------------------------------
+local function nzh_on_cutscene_cancelled(_event)
+    NZH_startup_on_cutscene_cancelled(_event)
+end
+
+--------------------------------------------------------------------------------------
 script.on_init(nzh_on_init)
 script.on_configuration_changed(nzh_on_configuration_changed)
 script.on_event(defines.events.on_player_created, nzh_on_player_created)
 script.on_event(defines.events.on_player_joined_game, nzh_on_player_joined_game)
 script.on_event(defines.events.on_tick, nzh_on_tick)
 script.on_event(defines.events.on_gui_click, nzh_on_gui_click)
+script.on_event(defines.events.on_cutscene_cancelled, nzh_on_cutscene_cancelled)

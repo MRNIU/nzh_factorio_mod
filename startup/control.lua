@@ -3,50 +3,73 @@
 --
 -- control.lua for MRNIU/nzh_factorio_mod.
 
-function NZH_startup_on_init()
-	local created_items = remote.call("freeplay", "get_created_items")
-		-- 蜘蛛机甲
-		created_items["spidertron"] = 1
-		-- 蜘蛛机甲遥控
-		created_items["spidertron-remote"] = 1
-		-- 能量装甲 MK2
-		created_items["power-armor-mk2"] = 1
-		-- 能量盾模块 MK2
-		created_items["energy-shield-mk2-equipment"] = 30
-		-- 外骨骼模块
-		created_items["exoskeleton-equipment"] = 40
-		-- 聚变堆模块
-		created_items["fusion-reactor-equipment"] = 30
-		-- 激光防御模块
-		created_items["personal-laser-defense-equipment"] = 30
-		-- 机器人指令模块
-		created_items["personal-roboport-mk2-equipment"] = 28
-		-- 夜视模块
-		created_items["night-vision-equipment"] = 1
-		-- 锚定模块
-		created_items["belt-immunity-equipment"] = 1
-		-- 机器人指令平台
-		created_items["roboport"] = 14
-		-- 建设机器人
-		created_items["construction-robot"] = 100
-		-- 太阳能板
-		created_items["solar-panel"] = 720
-		-- 电池组
-		created_items["accumulator"] = 600
-		-- 电线杆
-		created_items["small-electric-pole"] = 50
-		created_items["medium-electric-pole"] = 50
-		created_items["big-electric-pole"] = 50
-		created_items["substation"] = 114
-		-- 雷达
-		created_items["radar"] = 50
-		-- 火箭弹
-		created_items["rocket"] = 2400
-		-- 高爆火箭弹
-		created_items["explosive-rocket"] = 2400
-		-- 贫铀穿甲弹
-		created_items["uranium-rounds-magazine"] = 1200
-		-- 冲锋枪
-		created_items["submachine-gun"] = 1
-		remote.call("freeplay", "set_created_items", created_items)
+local function add_item(_player, _item, _amount)
+	if (_amount > 0) then
+		_player.insert({ name = _item, count = _amount })
+	end
+end
+
+local function insert(_player)
+	-- 蜘蛛机甲
+	add_item(_player, "spidertron", 1)
+	-- 蜘蛛机甲遥控
+	add_item(_player, "spidertron-remote", 1)
+	-- 能量装甲 MK2
+	add_item(_player, "power-armor-mk2", 1)
+	-- 能量盾模块 MK2
+	add_item(_player, "energy-shield-mk2-equipment", 30)
+	-- 外骨骼模块
+	add_item(_player, "exoskeleton-equipment", 40)
+	-- 聚变堆模块
+	add_item(_player, "fusion-reactor-equipment", 30)
+	-- 激光防御模块
+	add_item(_player, "personal-laser-defense-equipment", 30)
+	-- 机器人指令模块
+	add_item(_player, "personal-roboport-mk2-equipment", 28)
+	-- 夜视模块
+	add_item(_player, "night-vision-equipment", 1)
+	-- 锚定模块
+	add_item(_player, "belt-immunity-equipment", 1)
+	-- 机器人指令平台
+	add_item(_player, "roboport", 14)
+	-- 建设机器人
+	add_item(_player, "construction-robot", 100)
+	-- 太阳能板
+	add_item(_player, "solar-panel", 720)
+	-- 电池组
+	add_item(_player, "accumulator", 600)
+	-- 电线杆
+	add_item(_player, "small-electric-pole", 50)
+	add_item(_player, "medium-electric-pole", 50)
+	add_item(_player, "big-electric-pole", 50)
+	add_item(_player, "substation", 114)
+	-- 雷达
+	add_item(_player, "radar", 50)
+	-- 火箭弹
+	add_item(_player, "rocket", 2400)
+	-- 高爆火箭弹
+	add_item(_player, "explosive-rocket", 2400)
+	-- 贫铀穿甲弹
+	add_item(_player, "uranium-rounds-magazine", 1200)
+	-- 冲锋枪
+	add_item(_player, "submachine-gun", 1)
+	-- 采矿效率，890 级时满蓝带 https://wiki.factorio.com/Mining_productivity_(research)#Normal%20mode
+	_player.force.technologies['mining-productivity-1'].researched = true
+	_player.force.technologies['mining-productivity-2'].researched = true
+	_player.force.technologies['mining-productivity-3'].researched = true
+	for x = 0, 886 do
+		_player.force.technologies['mining-productivity-4'].researched = true
+	end
+end
+
+function NZH_startup_on_player_created(_event)
+	local player = game.players[_event.player_index]
+	if not player.character == nil then
+		insert(player)
+	end
+end
+
+function NZH_startup_on_cutscene_cancelled(_event)
+	local player = game.players[_event.player_index]
+	insert(player)
 end
