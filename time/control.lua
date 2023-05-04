@@ -104,7 +104,7 @@ function NZH_time_on_init()
 end
 
 --------------------------------------------------------------------------------------
-function NZH_time_on_load()
+function NZH_time_on_configuration_changed()
 	init_players()
 end
 
