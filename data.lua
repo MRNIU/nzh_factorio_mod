@@ -7,3 +7,6 @@ require("utils")
 require("prototypes.styles")
 require("tinyequipment/data")
 require("pumpanywhere.data")
+
+--- 设置电力采矿机开采速度为 45，即一条蓝带
+data.raw["mining-drill"]["electric-mining-drill"].mining_speed = 45
