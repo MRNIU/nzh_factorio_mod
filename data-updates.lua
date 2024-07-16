@@ -3,4 +3,4 @@
 --
 -- data-updates.lua for MRNIU/nzh_factorio_mod.
 
-require("nightvision.data-updates")
+data.raw["night-vision-equipment"]["night-vision-equipment"].color_lookup = {{0.5, "__core__/graphics/color_luts/lut-sunset.png"}}

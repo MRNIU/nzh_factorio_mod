@@ -3,22 +3,20 @@
 --
 -- control.lua for MRNIU/nzh_factorio_mod.
 
-
--- 游戏速度
-require("time/control")
+require("time.control")
 require("startup.control")
-require("longreach.control")
+require("long_reach.control")
 
 --------------------------------------------------------------------------------------
 local function nzh_on_init()
     NZH_time_on_init()
-    NZH_longreach_on_init()
+    NZH_long_reach_on_init()
 end
 
 --------------------------------------------------------------------------------------
 local function nzh_on_configuration_changed(_data)
     NZH_time_on_configuration_changed()
-    NZH_longreach_on_configuration_changed()
+    NZH_long_reach_on_configuration_changed()
 end
 
 --------------------------------------------------------------------------------------
@@ -44,7 +42,6 @@ end
 
 --------------------------------------------------------------------------------------
 local function nzh_on_cutscene_cancelled(_event)
-    NZH_startup_on_cutscene_cancelled(_event)
 end
 
 --------------------------------------------------------------------------------------

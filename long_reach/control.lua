@@ -25,11 +25,11 @@ local function set_join_options(event)
 	end
 end
 
-function NZH_longreach_on_init()
+function NZH_long_reach_on_init()
 	apply_settings()
 end
 
-function NZH_longreach_on_configuration_changed()
+function NZH_long_reach_on_configuration_changed()
 	apply_settings()
 end
 
