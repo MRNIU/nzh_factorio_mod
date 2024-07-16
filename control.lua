@@ -8,47 +8,54 @@ require("startup.control")
 require("long_reach.control")
 
 --------------------------------------------------------------------------------------
-local function nzh_on_init()
+local function OnInit()
+    if remote.interfaces["freeplay"] then
+        -- 跳过开场动画
+        remote.call("freeplay", "set_disable_crashsite", true)
+        -- 跳过开场介绍
+        remote.call("freeplay", "set_skip_intro", true)
+    end
+
     NZH_time_on_init()
     NZH_long_reach_on_init()
 end
 
 --------------------------------------------------------------------------------------
-local function nzh_on_configuration_changed(_data)
+local function OnConfigurationChanged(_data)
     NZH_time_on_configuration_changed()
     NZH_long_reach_on_configuration_changed()
 end
 
 --------------------------------------------------------------------------------------
-local function nzh_on_player_created(_event)
-    NZH_time_on_player_created(_event)
-    NZH_startup_on_player_created(_event)
+local function OnPlayerCreated(event)
+    NZH_time_on_player_created(event)
 end
 
 --------------------------------------------------------------------------------------
-local function nzh_on_player_joined_game(_event)
-    NZH_time_on_player_joined_game(_event)
+local function OnPlayerJoinedGame(event)
+    NZH_time_on_player_joined_game(event)
 end
 
 --------------------------------------------------------------------------------------
-local function nzh_on_tick(_event)
-    NZH_time_on_tick(_event)
+local function OnPlayerFirstJoinedGame(event)
+    startup_OnPlayerFirstJoinedGame(event)
 end
 
 --------------------------------------------------------------------------------------
-local function nzh_on_gui_click(_event)
-    NZH_time_on_gui_click(_event)
+local function OnTick(event)
+    NZH_time_on_tick(event)
 end
 
 --------------------------------------------------------------------------------------
-local function nzh_on_cutscene_cancelled(_event)
+local function OnGuiClick(event)
+    NZH_time_on_gui_click(event)
 end
 
 --------------------------------------------------------------------------------------
-script.on_init(nzh_on_init)
-script.on_configuration_changed(nzh_on_configuration_changed)
-script.on_event(defines.events.on_player_created, nzh_on_player_created)
-script.on_event(defines.events.on_player_joined_game, nzh_on_player_joined_game)
-script.on_event(defines.events.on_tick, nzh_on_tick)
-script.on_event(defines.events.on_gui_click, nzh_on_gui_click)
-script.on_event(defines.events.on_cutscene_cancelled, nzh_on_cutscene_cancelled)
+script.on_init(OnInit)
+script.on_configuration_changed(OnConfigurationChanged)
+script.on_event(defines.events.on_player_created, OnPlayerCreated)
+script.on_event(defines.events.on_player_joined_game, OnPlayerJoinedGame)
+script.on_event({ defines.events.on_player_created, defines.events.on_player_joined_game }, OnPlayerFirstJoinedGame)
+script.on_event(defines.events.on_tick, OnTick)
+script.on_event(defines.events.on_gui_click, OnGuiClick)

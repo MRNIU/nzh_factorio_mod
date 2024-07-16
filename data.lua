@@ -6,10 +6,10 @@
 require("utils")
 require("prototypes.styles")
 
---- 设置电力采矿机开采速度为 45，即一条蓝带
+-- 设置电力采矿机开采速度为 45，即一条蓝带
 data.raw["mining-drill"]["electric-mining-drill"].mining_speed = 45
 
---- 设置插件只占用一个格子
+-- 设置插件只占用一个格子
 for _, energyshield in pairs(data.raw["energy-shield-equipment"]) do
     energyshield.shape = {width = 1, height = 1, type = "full"}
 end
@@ -42,7 +42,7 @@ for _, activedefenseequipment in pairs(data.raw["active-defense-equipment"]) do
     activedefenseequipment.shape = {width = 1, height = 1, type = "full"}
 end
 
---- 设置管道泵可随意放置
+-- 设置管道泵可随意放置
 data.raw["offshore-pump"]["offshore-pump"].adjacent_tile_collision_test = { "ground-tile", "water-tile", "object-layer" }
 data.raw["offshore-pump"]["offshore-pump"].adjacent_tile_collision_mask = nil
 data.raw["offshore-pump"]["offshore-pump"].placeable_position_visualization = nil
