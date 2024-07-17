@@ -29,15 +29,12 @@ end
 --------------------------------------------------------------------------------------
 local function OnPlayerCreated(event)
     NZH_time_on_player_created(event)
+    startup_OnPlayerFirstJoinedGame(event)
 end
 
 --------------------------------------------------------------------------------------
 local function OnPlayerJoinedGame(event)
     NZH_time_on_player_joined_game(event)
-end
-
---------------------------------------------------------------------------------------
-local function OnPlayerFirstJoinedGame(event)
     startup_OnPlayerFirstJoinedGame(event)
 end
 
@@ -56,6 +53,5 @@ script.on_init(OnInit)
 script.on_configuration_changed(OnConfigurationChanged)
 script.on_event(defines.events.on_player_created, OnPlayerCreated)
 script.on_event(defines.events.on_player_joined_game, OnPlayerJoinedGame)
-script.on_event({ defines.events.on_player_created, defines.events.on_player_joined_game }, OnPlayerFirstJoinedGame)
 script.on_event(defines.events.on_tick, OnTick)
 script.on_event(defines.events.on_gui_click, OnGuiClick)

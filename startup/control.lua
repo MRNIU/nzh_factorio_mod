@@ -118,10 +118,10 @@ local spidertron_trunk_items = {
 local function main(player)
 	if player == nil then return end
 	if global.nzh_startup_inited == nil then
-		global.nzh_startup_inited = false
+		global.nzh_startup_inited = {}
 	end
 
-	if global.nzh_startup_inited == true then
+	if global.nzh_startup_inited[player.index] == true then
 		return
 	end
 
@@ -167,7 +167,7 @@ local function main(player)
 	-- 设置驾驶员
 	spidertron.set_driver(player)
 
-	global.nzh_startup_inited = true
+	global.nzh_startup_inited[player.index] = true
 end
 
 function startup_OnPlayerFirstJoinedGame(event)
