@@ -3,34 +3,17 @@
 --
 -- control.lua for MRNIU/nzh_factorio_mod.
 
-require "util"
-require "event"
-
-local function apply_settings()
-	game.forces["player"].character_build_distance_bonus = 9999
-	game.forces["player"].character_item_drop_distance_bonus = 9999
-	game.forces["player"].character_reach_distance_bonus = 9999
-	game.forces["player"].character_resource_reach_distance_bonus = 9999
-end
-
-local function set_join_options(event)
-	apply_settings()
-
-	-- an earlier version of this mod set these two settings, and causes major game lag if 1000. Ajust them to something acceptable
-	if game.players[event.player_index].force_item_pickup_distance_bonus > 10 then
-		game.players[event.player_index].force_item_pickup_distance_bonus = 1
-	end
-	if game.players[event.player_index].force_loot_pickup_distance_bonus > 10 then
-		game.players[event.player_index].force_loot_pickup_distance_bonus = 1
+local function main(player)
+	for _, player in pairs(game.players) do
+		if player.character then
+			player.character_build_distance_bonus = 16384
+			player.character_reach_distance_bonus = 16384
+			player.character_resource_reach_distance_bonus = 16384
+			player.character_item_drop_distance_bonus = 16384
+		end
 	end
 end
 
-function NZH_long_reach_on_init()
-	apply_settings()
+function long_reach_OnPlayerFirstJoinedGame()
+	main(game)
 end
-
-function NZH_long_reach_on_configuration_changed()
-	apply_settings()
-end
-
-Event.register(defines.events.on_player_joined_game, set_join_options)

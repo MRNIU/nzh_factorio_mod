@@ -21,5 +21,3 @@ for k, character in pairs(data.raw.character) do
         end
     end
 end
-
-

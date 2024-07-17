@@ -17,13 +17,12 @@ local function OnInit()
     end
 
     NZH_time_on_init()
-    NZH_long_reach_on_init()
+    long_reach_OnPlayerFirstJoinedGame()
 end
 
 --------------------------------------------------------------------------------------
 local function OnConfigurationChanged(_data)
     NZH_time_on_configuration_changed()
-    NZH_long_reach_on_configuration_changed()
 end
 
 --------------------------------------------------------------------------------------
