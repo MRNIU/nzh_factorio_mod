@@ -117,6 +117,13 @@ local spidertron_trunk_items = {
 
 local function main(player)
 	if player == nil then return end
+	if global.nzh_startup_inited == nil then
+		global.nzh_startup_inited = false
+	end
+
+	if global.nzh_startup_inited == true then
+		return
+	end
 
 	-- 清空已有物品
 	player.clear_items_inside()
@@ -157,6 +164,10 @@ local function main(player)
 			spidertron.grid.put({ name = item.name })
 		end
 	end
+	-- 设置驾驶员
+	spidertron.set_driver(player)
+
+	global.nzh_startup_inited = true
 end
 
 function startup_OnPlayerFirstJoinedGame(event)
