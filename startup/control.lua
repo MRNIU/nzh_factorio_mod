@@ -113,6 +113,8 @@ local chest3_items = {
 	{ name = "steel-furnace",         count = 400 },
 	-- 电力采矿机
 	{ name = "electric-mining-drill", count = 400 },
+	-- 悬崖炸药
+	{ name = "cliff-explosives",      count = 200 },
 }
 
 -- 物品箱 4 物品
