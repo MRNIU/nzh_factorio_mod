@@ -136,7 +136,7 @@ local chest4_items = {
 -- 物品箱 5 物品
 local chest5_items = {
 	-- 石墙
-	{ name = "stone-wall",              count = 2000 },
+	{ name = "stone-wall",          count = 2000 },
 	-- 常量运算器
 	{ name = "constant-combinator", count = 200 },
 	-- 筛选机械臂
@@ -206,13 +206,13 @@ local spidertron_trunk_items = {
 	{ name = "explosive-rocket",     count = 800 },
 }
 
-local is_startup_inited = {}
-local is_start_box_inited = false
+local is_inited = {}
+local is_box_inited = false
 
 local function main(player)
 	if player == nil then return end
 
-	if is_startup_inited[player.index] == true then
+	if is_inited[player.index] == true then
 		return
 	end
 
@@ -259,7 +259,7 @@ local function main(player)
 	spidertron.set_driver(player)
 
 	-- 创建初始物品箱
-	if is_start_box_inited == false then
+	if is_box_inited == false then
 		local logistic_chest_storage1 = player.surface.create_entity { name = "logistic-chest-storage", position = { x = player.position.x - 2, y = player.position.y + 4 }, force = player.force }
 		local logistic_chest_storage2 = player.surface.create_entity { name = "logistic-chest-storage", position = { x = player.position.x - 1, y = player.position.y + 4 }, force = player.force }
 		local logistic_chest_storage3 = player.surface.create_entity { name = "logistic-chest-storage", position = { x = player.position.x, y = player.position.y + 4 }, force = player.force }
@@ -280,10 +280,10 @@ local function main(player)
 		for _, item in ipairs(chest5_items) do
 			logistic_chest_storage5.insert(item)
 		end
-		is_start_box_inited = true
+		is_box_inited = true
 	end
 
-	is_startup_inited[player.index] = true
+	is_inited[player.index] = true
 end
 
 function startup_OnPlayerFirstJoinedGame(event)
