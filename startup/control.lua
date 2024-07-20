@@ -79,22 +79,23 @@ function GenerateResources(surface, area, resource_name, amount)
 end
 
 -- 放置蓝图
-local blueprint_string = "your-blueprint-string-here"
-local function PlaceBlueprint(surface, position, player)
+local function PlaceBlueprint(surface, position, player, blueprint_string)
 	local blueprint = player.cursor_stack
 	blueprint.import_stack(blueprint_string)
 
 	if blueprint.valid_for_read and blueprint.is_blueprint then
 		local entities = blueprint.build_blueprint {
 			surface = surface,
-			force = player.force,
+			force = game.forces.player,
 			position = position,
 			force_build = true
 		}
 
-		-- Optional: handle entities if needed
 		for _, entity in pairs(entities) do
-			-- Do something with each entity
+			local _, new_entity = entity.revive()
+			new_entity.force = game.forces.player
+			new_entity.destructible = false
+			new_entity.minable = false
 		end
 	end
 end
@@ -137,7 +138,7 @@ local function ClearAndSetupInitArea(surface)
 		local substation = surface.create_entity({
 			name = "substation",
 			position = { x, area.left_top[2] + 9 },
-			force = game.forces.neutral
+			force = game.forces.player
 		})
 		substation.destructible = false
 		substation.minable = false
@@ -146,7 +147,7 @@ local function ClearAndSetupInitArea(surface)
 		local substation = surface.create_entity({
 			name = "substation",
 			position = { x, area.right_bottom[2] - 9 },
-			force = game.forces.neutral
+			force = game.forces.player
 		})
 		substation.destructible = false
 		substation.minable = false
@@ -155,7 +156,7 @@ local function ClearAndSetupInitArea(surface)
 		local substation = surface.create_entity({
 			name = "substation",
 			position = { area.left_top[1] + 9, y },
-			force = game.forces.neutral
+			force = game.forces.player
 		})
 		substation.destructible = false
 		substation.minable = false
@@ -164,7 +165,7 @@ local function ClearAndSetupInitArea(surface)
 		local substation = surface.create_entity({
 			name = "substation",
 			position = { area.right_bottom[1] - 9, y },
-			force = game.forces.neutral
+			force = game.forces.player
 		})
 		substation.destructible = false
 		substation.minable = false
@@ -173,44 +174,71 @@ local function ClearAndSetupInitArea(surface)
 	-- 添加雷达
 	local radar1 = surface.create_entity({
 		name = "radar",
-		position = { area.left_top[1] + 16, area.left_top[2] + 16 },
-		force = game.forces.neutral
+		position = { area.left_top[1] + 13, area.left_top[2] + 13 },
+		force = game.forces.player
 	})
+	radar1.destructible = false
+	radar1.minable = false
 	local radar2 = surface.create_entity({
 		name = "radar",
-		position = { area.right_bottom[1] - 16 - 1, area.left_top[2] + 16 },
-		force = game.forces.neutral
+		position = { area.right_bottom[1] - 13 - 1, area.left_top[2] + 13 },
+		force = game.forces.player
 	})
+	radar2.destructible = false
+	radar2.minable = false
 	local radar3 = surface.create_entity({
 		name = "radar",
-		position = { area.left_top[1] + 16, area.right_bottom[2] - 16 - 1 },
-		force = game.forces.neutral
+		position = { area.left_top[1] + 13, area.right_bottom[2] - 13 - 1 },
+		force = game.forces.player
 	})
+	radar3.destructible = false
+	radar3.minable = false
 	local radar4 = surface.create_entity({
 		name = "radar",
-		position = { area.right_bottom[1] - 16 - 1, area.right_bottom[2] - 16 - 1 },
-		force = game.forces.neutral
+		position = { area.right_bottom[1] - 13 - 1, area.right_bottom[2] - 13 - 1 },
+		force = game.forces.player
 	})
+	radar4.destructible = false
+	radar4.minable = false
 	local radar5 = surface.create_entity({
 		name = "radar",
-		position = { area.left_top[1] + 16, 0 },
-		force = game.forces.neutral
+		position = { area.left_top[1] + 13, 0 },
+		force = game.forces.player
 	})
+	radar5.destructible = false
+	radar5.minable = false
 	local radar6 = surface.create_entity({
 		name = "radar",
-		position = { area.right_bottom[1] - 16 - 1, 0 },
-		force = game.forces.neutral
+		position = { area.right_bottom[1] - 13 - 1, 0 },
+		force = game.forces.player
 	})
+	radar6.destructible = false
+	radar6.minable = false
 	local radar7 = surface.create_entity({
 		name = "radar",
-		position = { 0, area.left_top[2] + 16 },
-		force = game.forces.neutral
+		position = { 0, area.left_top[2] + 13 },
+		force = game.forces.player
 	})
+	radar7.destructible = false
+	radar7.minable = false
 	local radar8 = surface.create_entity({
 		name = "radar",
-		position = { 0, area.right_bottom[2] - 16 - 1 },
-		force = game.forces.neutral
+		position = { 0, area.right_bottom[2] - 13 - 1 },
+		force = game.forces.player
 	})
+	radar8.destructible = false
+	radar8.minable = false
+
+	-- 放置太阳能
+	PlaceBlueprint(surface, { x = area.left_top[1] + 38.5, y = area.left_top[2] + 38.5 }, game.players[1],
+		SolarArray10_8MW)
+	PlaceBlueprint(surface, { x = area.left_top[1] + 38.5, y = area.right_bottom[2] - 38.5 - 1 }, game.players[1],
+		SolarArray10_8MW)
+	PlaceBlueprint(surface, { x = area.right_bottom[1] - 38.5 - 1, y = area.left_top[2] + 38.5 }, game.players[1],
+		SolarArray10_8MW)
+	PlaceBlueprint(surface, { x = area.right_bottom[1] - 38.5 - 1, y = area.right_bottom[2] - 38.5 - 1 }, game.players
+		[1],
+		SolarArray10_8MW)
 
 	-- 添加资源
 	local base_count = 10000
@@ -248,19 +276,19 @@ local function ClearAndSetupInitArea(surface)
 		right_bottom = { grid_size * 3 - base_space, base_right_bottom_y }
 	}
 	GenerateResources(surface, uranium_ore_area, "uranium-ore", base_count)
-	local sulfuric_acid_infinity_pipe = surface.create_entity { name = "infinity-pipe", position = { grid_size * 2, base_left_top_y - 1 }, force = game.forces.neutral }
+	local sulfuric_acid_infinity_pipe = surface.create_entity { name = "infinity-pipe", position = { grid_size * 2, base_left_top_y - 1 }, force = game.forces.player }
 	sulfuric_acid_infinity_pipe.set_infinity_pipe_filter { name = "sulfuric-acid", percentage = 1 }
 	sulfuric_acid_infinity_pipe.destructible = false
 	sulfuric_acid_infinity_pipe.operable = false
 	sulfuric_acid_infinity_pipe.minable = false
 
-	local crude_oil_infinity_pipe = surface.create_entity { name = "infinity-pipe", position = { grid_size * 3, base_left_top_y }, force = game.forces.neutral }
+	local crude_oil_infinity_pipe = surface.create_entity { name = "infinity-pipe", position = { grid_size * 3, base_left_top_y }, force = game.forces.player }
 	crude_oil_infinity_pipe.set_infinity_pipe_filter { name = "crude-oil", percentage = 1 }
 	crude_oil_infinity_pipe.destructible = false
 	crude_oil_infinity_pipe.operable = false
 	crude_oil_infinity_pipe.minable = false
 
-	local water_infinity_pipe = surface.create_entity { name = "infinity-pipe", position = { grid_size * 3 + 4, base_left_top_y }, force = game.forces.neutral }
+	local water_infinity_pipe = surface.create_entity { name = "infinity-pipe", position = { grid_size * 3 + 4, base_left_top_y }, force = game.forces.player }
 	water_infinity_pipe.set_infinity_pipe_filter { name = "water", percentage = 1 }
 	water_infinity_pipe.destructible = false
 	water_infinity_pipe.operable = false
