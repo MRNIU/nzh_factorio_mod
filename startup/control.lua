@@ -213,6 +213,7 @@ local function main(player)
 
 	if global.startup_is_inited == nil then
 		global.startup_is_inited = {}
+		global.startup_is_box_inited = false
 	end
 
 	if global.startup_is_inited[player.index] == true then
