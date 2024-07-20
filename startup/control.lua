@@ -3,220 +3,11 @@
 --
 -- control.lua for MRNIU/nzh_factorio_mod.
 
--- 背包物品
-local player_inventory_items = {
-	-- 钢箱
-	{ name = "steel-chest",             count = 50 },
-	-- 一级组装机
-	{ name = "assembling-machine-1",    count = 50 },
-	-- 二级组装机
-	{ name = "assembling-machine-2",    count = 50 },
-	-- 三级组装机
-	{ name = "assembling-machine-3",    count = 50 },
-	-- 传送带
-	{ name = "transport-belt",          count = 200 },
-	-- 地下传送带
-	{ name = "underground-belt",        count = 50 },
-	-- 分流器
-	{ name = "splitter",                count = 50 },
-	-- 管道
-	{ name = "pipe",                    count = 200 },
-	-- 地下管道
-	{ name = "pipe-to-ground",          count = 100 },
-	-- 机械臂
-	{ name = "inserter",                count = 50 },
-	-- 加长机械臂
-	{ name = "long-handed-inserter",    count = 50 },
-	-- 快速机械臂
-	{ name = "fast-inserter",           count = 50 },
-	-- 水泵
-	{ name = "offshore-pump",           count = 2 },
-	-- 油井
-	{ name = "pumpjack",                count = 10 },
-	-- 电力采矿机
-	{ name = "electric-mining-drill",   count = 50 },
-	-- 蜘蛛机甲遥控器
-	{ name = "spidertron-remote",       count = 1 },
-	-- 建设机器人
-	{ name = "construction-robot",      count = 100 },
-	-- 电线杆
-	{ name = "small-electric-pole",     count = 50 },
-	{ name = "medium-electric-pole",    count = 50 },
-	{ name = "big-electric-pole",       count = 50 },
-	{ name = "substation",              count = 50 },
-	-- 雷达
-	{ name = "radar",                   count = 50 },
-	-- 贫铀穿甲弹
-	{ name = "uranium-rounds-magazine", count = 1000 },
-	-- 机枪炮塔
-	{ name = "gun-turret",              count = 50 },
-	-- 修理包
-	{ name = "repair-pack",             count = 100 },
-	-- 管道泵
-	{ name = "pump",                    count = 4 },
-	-- 机器人指令平台
-	{ name = "roboport",                count = 10 },
-}
+require("items")
 
--- 物品箱 1 物品
-local chest1_items = {
-	-- 钢箱
-	{ name = "steel-chest",          count = 100 },
-	-- 一级组装机
-	{ name = "assembling-machine-1", count = 100 },
-	-- 二级组装机
-	{ name = "assembling-machine-2", count = 50 },
-	-- 三级组装机
-	{ name = "assembling-machine-3", count = 50 },
-	-- 传送带
-	{ name = "transport-belt",       count = 2400 },
-	-- 地下传送带
-	{ name = "underground-belt",     count = 300 },
-	-- 分流器
-	{ name = "splitter",             count = 100 },
-	-- 管道
-	{ name = "pipe",                 count = 200 },
-	-- 地下管道
-	{ name = "pipe-to-ground",       count = 200 },
-}
-
--- 物品箱 2 物品
-local chest2_items = {
-	-- 热能机械臂
-	{ name = "burner-inserter",      count = 600 },
-	-- 机械臂
-	{ name = "inserter",             count = 600 },
-	-- 加长机械臂
-	{ name = "long-handed-inserter", count = 200 },
-	-- 快速机械臂
-	{ name = "fast-inserter",        count = 200 },
-	-- 电线杆
-	{ name = "small-electric-pole",  count = 400 },
-	{ name = "medium-electric-pole", count = 100 },
-	{ name = "big-electric-pole",    count = 50 },
-	{ name = "substation",           count = 50 },
-}
-
--- 物品箱 3 物品
-local chest3_items = {
-	-- 实验室
-	{ name = "lab",                   count = 40 },
-	-- 炼油厂
-	{ name = "oil-refinery",          count = 20 },
-	-- 化工厂
-	{ name = "chemical-plant",        count = 20 },
-	-- 水泵
-	{ name = "offshore-pump",         count = 20 },
-	-- 油井
-	{ name = "pumpjack",              count = 20 },
-	-- 钢炉
-	{ name = "steel-furnace",         count = 400 },
-	-- 电力采矿机
-	{ name = "electric-mining-drill", count = 400 },
-	-- 悬崖炸药
-	{ name = "cliff-explosives",      count = 200 },
-}
-
--- 物品箱 4 物品
-local chest4_items = {
-	-- 雷达
-	{ name = "radar",                   count = 100 },
-	-- 贫铀穿甲弹
-	{ name = "uranium-rounds-magazine", count = 2000 },
-	-- 机枪炮塔
-	{ name = "gun-turret",              count = 200 },
-	-- 锅炉
-	{ name = "boiler",                  count = 40 },
-	-- 蒸汽机
-	{ name = "steam-engine",            count = 80 },
-	-- 火焰炮塔
-	{ name = "flamethrower-turret",     count = 200 },
-	-- 石墙
-	{ name = "stone-wall",              count = 1000 },
-}
-
--- 物品箱 5 物品
-local chest5_items = {
-	-- 石墙
-	{ name = "stone-wall",          count = 2000 },
-	-- 常量运算器
-	{ name = "constant-combinator", count = 200 },
-	-- 筛选机械臂
-	{ name = "filter-inserter",     count = 200 },
-	-- 集装机械臂
-	{ name = "stack-inserter",      count = 200 },
-	-- 修理包
-	{ name = "repair-pack",         count = 100 },
-	-- 储液罐
-	{ name = "storage-tank",        count = 50 },
-	-- 管道泵
-	{ name = "pump",                count = 50 },
-	-- 灯
-	{ name = "small-lamp",          count = 200 },
-}
-
--- 能量装甲装备
-local power_armor_grid_items = {
-	-- 能量盾模块 MK2
-	{ name = "energy-shield-mk2-equipment",      count = 30 },
-	-- 聚变堆模块
-	{ name = "fusion-reactor-equipment",         count = 20 },
-	-- 激光防御模块
-	{ name = "personal-laser-defense-equipment", count = 30 },
-	-- 机器人指令模块
-	{ name = "personal-roboport-mk2-equipment",  count = 18 },
-	-- 夜视模块
-	{ name = "night-vision-equipment",           count = 1 },
-	-- 锚定模块
-	{ name = "belt-immunity-equipment",          count = 1 },
-}
-
--- 蜘蛛机甲装备
-local spidertron_grid_items = {
-	-- 能量盾模块 MK2
-	{ name = "energy-shield-mk2-equipment",      count = 20 },
-	-- 聚变堆模块
-	{ name = "fusion-reactor-equipment",         count = 10 },
-	-- 激光防御模块
-	{ name = "personal-laser-defense-equipment", count = 20 },
-	-- 机器人指令模块
-	{ name = "personal-roboport-mk2-equipment",  count = 8 },
-	-- 夜视模块
-	{ name = "night-vision-equipment",           count = 1 },
-	-- 锚定模块
-	{ name = "belt-immunity-equipment",          count = 1 },
-}
-
--- 蜘蛛机甲物品
-local spidertron_trunk_items = {
-	-- 机器人指令平台
-	{ name = "roboport",             count = 40 },
-	-- 建设机器人
-	{ name = "construction-robot",   count = 100 },
-	-- 太阳能板
-	{ name = "solar-panel",          count = 1440 },
-	-- 电池组
-	{ name = "accumulator",          count = 1200 },
-	-- 电线杆
-	{ name = "small-electric-pole",  count = 200 },
-	{ name = "medium-electric-pole", count = 200 },
-	{ name = "big-electric-pole",    count = 200 },
-	{ name = "substation",           count = 200 },
-	-- 雷达
-	{ name = "radar",                count = 50 },
-	-- 高爆火箭弹
-	{ name = "explosive-rocket",     count = 800 },
-}
-
-local function main(player)
-	if player == nil then return end
-
-	if global.startup_is_inited == nil then
-		global.startup_is_inited = {}
-		global.startup_is_box_inited = false
-	end
-
-	if global.startup_is_inited[player.index] == true then
+-- 初始化玩家
+local function InitPlayer(player)
+	if global.startup_is_player_inited[player.index] == true then
 		return
 	end
 
@@ -226,6 +17,14 @@ local function main(player)
 	-- 背包内物品
 	for _, item in ipairs(player_inventory_items) do
 		player.insert(item)
+	end
+	if player.name == "PTRNULL" then
+		-- 永续箱
+		player.insert { name = "infinity-chest", count = 10 }
+		-- 永续管
+		player.insert { name = "infinity-pipe", count = 10 }
+		-- 极速装卸机
+		player.insert { name = "express-loader", count = 10 }
 	end
 
 	-- 冲锋枪
@@ -243,7 +42,7 @@ local function main(player)
 	end
 
 	-- 创建蜘蛛机甲
-	local spidertron = player.surface.create_entity { name = "spidertron", position = player.position, force = player.force }
+	local spidertron = player.surface.create_entity { name = "spidertron", position = player.position, force = game.forces.player }
 	-- 蜘蛛机甲内物品
 	for _, item in ipairs(spidertron_trunk_items) do
 		spidertron.get_inventory(defines.inventory.spider_trunk).insert(item)
@@ -262,32 +61,267 @@ local function main(player)
 	-- 设置驾驶员
 	spidertron.set_driver(player)
 
-	-- 创建初始物品箱
-	if global.startup_is_box_inited == false then
-		local logistic_chest_storage1 = player.surface.create_entity { name = "logistic-chest-storage", position = { x = player.position.x - 2, y = player.position.y + 4 }, force = player.force }
-		local logistic_chest_storage2 = player.surface.create_entity { name = "logistic-chest-storage", position = { x = player.position.x - 1, y = player.position.y + 4 }, force = player.force }
-		local logistic_chest_storage3 = player.surface.create_entity { name = "logistic-chest-storage", position = { x = player.position.x, y = player.position.y + 4 }, force = player.force }
-		local logistic_chest_storage4 = player.surface.create_entity { name = "logistic-chest-storage", position = { x = player.position.x + 1, y = player.position.y + 4 }, force = player.force }
-		local logistic_chest_storage5 = player.surface.create_entity { name = "logistic-chest-storage", position = { x = player.position.x + 2, y = player.position.y + 4 }, force = player.force }
-		for _, item in ipairs(chest1_items) do
-			logistic_chest_storage1.insert(item)
+	global.startup_is_player_inited[player.index] = true
+end
+
+-- 生成资源
+function GenerateResources(surface, area, resource_name, amount)
+	for x = area.left_top[1], area.right_bottom[1] - 1 do
+		for y = area.left_top[2], area.right_bottom[2] - 1 do
+			surface.create_entity({
+				name = resource_name,
+				amount = amount,
+				position = { x, y },
+				force = game.forces.neutral
+			})
 		end
-		for _, item in ipairs(chest2_items) do
-			logistic_chest_storage2.insert(item)
+	end
+end
+
+-- 放置蓝图
+local blueprint_string = "your-blueprint-string-here"
+local function PlaceBlueprint(surface, position, player)
+	local blueprint = player.cursor_stack
+	blueprint.import_stack(blueprint_string)
+
+	if blueprint.valid_for_read and blueprint.is_blueprint then
+		local entities = blueprint.build_blueprint {
+			surface = surface,
+			force = player.force,
+			position = position,
+			force_build = true
+		}
+
+		-- Optional: handle entities if needed
+		for _, entity in pairs(entities) do
+			-- Do something with each entity
 		end
-		for _, item in ipairs(chest3_items) do
-			logistic_chest_storage3.insert(item)
-		end
-		for _, item in ipairs(chest4_items) do
-			logistic_chest_storage4.insert(item)
-		end
-		for _, item in ipairs(chest5_items) do
-			logistic_chest_storage5.insert(item)
-		end
-		global.startup_is_box_inited = true
+	end
+end
+
+-- 设置初始区域
+local function ClearAndSetupInitArea(surface)
+	if global.startup_is_area_inited == true then
+		return
 	end
 
-	global.startup_is_inited[player.index] = true
+	local area = {
+		left_top = { -207, -207 },
+		right_bottom = { 207, 207 }
+	}
+
+	-- 删除初始区域内的物品
+	for _, entity in ipairs(surface.find_entities_filtered { area, force = { game.forces.enemy, game.forces.neutral } }) do
+		entity.destroy { do_cliff_correction = true }
+	end
+
+	-- 在初始区域铺地砖
+	local land_fill_tiles = {}
+	for x = area.left_top[1], area.right_bottom[1] - 1 do
+		for y = area.left_top[2], area.right_bottom[2] - 1 do
+			table.insert(land_fill_tiles, { position = { x, y }, name = "landfill" })
+		end
+	end
+	surface.set_tiles(land_fill_tiles)
+
+	local refined_concrete_tiles = {}
+	for x = area.left_top[1], area.right_bottom[1] - 1 do
+		for y = area.left_top[2], area.right_bottom[2] - 1 do
+			table.insert(refined_concrete_tiles, { position = { x, y }, name = "refined-concrete" })
+		end
+	end
+	surface.set_tiles(refined_concrete_tiles)
+
+	-- 沿边缘建设广域配电站
+	for x = area.left_top[1] + 9, area.right_bottom[1] - 1, 18 do
+		local substation = surface.create_entity({
+			name = "substation",
+			position = { x, area.left_top[2] + 9 },
+			force = game.forces.neutral
+		})
+		substation.destructible = false
+		substation.minable = false
+	end
+	for x = area.left_top[1] + 9, area.right_bottom[1] - 1, 18 do
+		local substation = surface.create_entity({
+			name = "substation",
+			position = { x, area.right_bottom[2] - 9 },
+			force = game.forces.neutral
+		})
+		substation.destructible = false
+		substation.minable = false
+	end
+	for y = area.left_top[2] + 9, area.right_bottom[2] - 1, 18 do
+		local substation = surface.create_entity({
+			name = "substation",
+			position = { area.left_top[1] + 9, y },
+			force = game.forces.neutral
+		})
+		substation.destructible = false
+		substation.minable = false
+	end
+	for y = area.left_top[2] + 9, area.right_bottom[2] - 1, 18 do
+		local substation = surface.create_entity({
+			name = "substation",
+			position = { area.right_bottom[1] - 9, y },
+			force = game.forces.neutral
+		})
+		substation.destructible = false
+		substation.minable = false
+	end
+
+	-- 添加雷达
+	local radar1 = surface.create_entity({
+		name = "radar",
+		position = { area.left_top[1] + 16, area.left_top[2] + 16 },
+		force = game.forces.neutral
+	})
+	local radar2 = surface.create_entity({
+		name = "radar",
+		position = { area.right_bottom[1] - 16 - 1, area.left_top[2] + 16 },
+		force = game.forces.neutral
+	})
+	local radar3 = surface.create_entity({
+		name = "radar",
+		position = { area.left_top[1] + 16, area.right_bottom[2] - 16 - 1 },
+		force = game.forces.neutral
+	})
+	local radar4 = surface.create_entity({
+		name = "radar",
+		position = { area.right_bottom[1] - 16 - 1, area.right_bottom[2] - 16 - 1 },
+		force = game.forces.neutral
+	})
+	local radar5 = surface.create_entity({
+		name = "radar",
+		position = { area.left_top[1] + 16, 0 },
+		force = game.forces.neutral
+	})
+	local radar6 = surface.create_entity({
+		name = "radar",
+		position = { area.right_bottom[1] - 16 - 1, 0 },
+		force = game.forces.neutral
+	})
+	local radar7 = surface.create_entity({
+		name = "radar",
+		position = { 0, area.left_top[2] + 16 },
+		force = game.forces.neutral
+	})
+	local radar8 = surface.create_entity({
+		name = "radar",
+		position = { 0, area.right_bottom[2] - 16 - 1 },
+		force = game.forces.neutral
+	})
+
+	-- 添加资源
+	local base_count = 10000
+	local grid_size = 32
+	local base_left_top_y = -grid_size * 5
+	local base_right_bottom_y = -grid_size * 4
+	local base_space = 4
+
+	local coal_area = {
+		left_top = { -grid_size * 3, base_left_top_y },
+		right_bottom = { -grid_size * 2 - base_space, base_right_bottom_y }
+	}
+	GenerateResources(surface, coal_area, "coal", base_count)
+
+	local copper_ore_area = {
+		left_top = { -grid_size * 2, base_left_top_y },
+		right_bottom = { -grid_size * 1 - base_space, base_right_bottom_y }
+	}
+	GenerateResources(surface, copper_ore_area, "copper-ore", base_count)
+
+	local iron_ore_area = {
+		left_top = { -grid_size * 1, base_left_top_y },
+		right_bottom = { grid_size * 1 - base_space, base_right_bottom_y }
+	}
+	GenerateResources(surface, iron_ore_area, "iron-ore", base_count)
+
+	local stone_area = {
+		left_top = { grid_size * 1, base_left_top_y },
+		right_bottom = { grid_size * 2 - base_space, base_right_bottom_y }
+	}
+	GenerateResources(surface, stone_area, "stone", base_count)
+
+	local uranium_ore_area = {
+		left_top = { grid_size * 2, base_left_top_y },
+		right_bottom = { grid_size * 3 - base_space, base_right_bottom_y }
+	}
+	GenerateResources(surface, uranium_ore_area, "uranium-ore", base_count)
+	local sulfuric_acid_infinity_pipe = surface.create_entity { name = "infinity-pipe", position = { grid_size * 2, base_left_top_y - 1 }, force = game.forces.neutral }
+	sulfuric_acid_infinity_pipe.set_infinity_pipe_filter { name = "sulfuric-acid", percentage = 1 }
+	sulfuric_acid_infinity_pipe.destructible = false
+	sulfuric_acid_infinity_pipe.operable = false
+	sulfuric_acid_infinity_pipe.minable = false
+
+	local crude_oil_infinity_pipe = surface.create_entity { name = "infinity-pipe", position = { grid_size * 3, base_left_top_y }, force = game.forces.neutral }
+	crude_oil_infinity_pipe.set_infinity_pipe_filter { name = "crude-oil", percentage = 1 }
+	crude_oil_infinity_pipe.destructible = false
+	crude_oil_infinity_pipe.operable = false
+	crude_oil_infinity_pipe.minable = false
+
+	local water_infinity_pipe = surface.create_entity { name = "infinity-pipe", position = { grid_size * 3 + 4, base_left_top_y }, force = game.forces.neutral }
+	water_infinity_pipe.set_infinity_pipe_filter { name = "water", percentage = 1 }
+	water_infinity_pipe.destructible = false
+	water_infinity_pipe.operable = false
+	water_infinity_pipe.minable = false
+
+	global.startup_is_area_inited = true
+end
+
+-- 创建初始物品箱
+local function AddBox(surface)
+	if global.startup_is_box_inited == true then
+		return
+	end
+
+	local logistic_chest_storage1 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 4, y = 0 + 4 }, force = game.forces.player }
+	local logistic_chest_storage2 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 3, y = 0 + 4 }, force = game.forces.player }
+	local logistic_chest_storage3 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 2, y = 0 + 4 }, force = game.forces.player }
+	local logistic_chest_storage4 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 1, y = 0 + 4 }, force = game.forces.player }
+	local logistic_chest_storage5 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 0, y = 0 + 4 }, force = game.forces.player }
+	local logistic_chest_storage6 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 1, y = 0 + 4 }, force = game.forces.player }
+	local logistic_chest_storage7 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 2, y = 0 + 4 }, force = game.forces.player }
+	local logistic_chest_storage8 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 3, y = 0 + 4 }, force = game.forces.player }
+	for _, item in ipairs(chest1_items) do
+		logistic_chest_storage1.insert(item)
+	end
+	for _, item in ipairs(chest2_items) do
+		logistic_chest_storage2.insert(item)
+	end
+	for _, item in ipairs(chest3_items) do
+		logistic_chest_storage3.insert(item)
+	end
+	for _, item in ipairs(chest4_items) do
+		logistic_chest_storage4.insert(item)
+	end
+	for _, item in ipairs(chest5_items) do
+		logistic_chest_storage5.insert(item)
+	end
+	for _, item in ipairs(chest6_items) do
+		logistic_chest_storage6.insert(item)
+	end
+	for _, item in ipairs(chest7_items) do
+		logistic_chest_storage7.insert(item)
+	end
+	for _, item in ipairs(chest8_items) do
+		logistic_chest_storage8.insert(item)
+	end
+	global.startup_is_box_inited = true
+end
+
+local function main(player)
+	if player == nil then return end
+
+	if global.startup_is_player_inited == nil then
+		global.startup_is_player_inited = {}
+		global.startup_is_area_inited = false
+		global.startup_is_box_inited = false
+	end
+
+	ClearAndSetupInitArea(player.surface)
+	InitPlayer(player)
+	AddBox(player.surface)
 end
 
 function startup_OnPlayerFirstJoinedGame(event)
