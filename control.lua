@@ -10,7 +10,7 @@ require("long_reach.control")
 --------------------------------------------------------------------------------------
 local function OnInit()
     if remote.interfaces["freeplay"] then
-        -- 跳过开场动画
+        -- 不生成飞船残骸
         remote.call("freeplay", "set_disable_crashsite", true)
         -- 跳过开场介绍
         remote.call("freeplay", "set_skip_intro", true)
