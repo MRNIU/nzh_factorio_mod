@@ -11,6 +11,9 @@ local function InitPlayer(player)
 		return
 	end
 
+	-- 传送
+	player.teleport({ 0, -170 }, player.surface)
+
 	-- 清空已有物品
 	player.clear_items_inside()
 
@@ -20,11 +23,11 @@ local function InitPlayer(player)
 	end
 	if player.name == "PTRNULL" then
 		-- 永续箱
-		player.insert { name = "infinity-chest", count = 10 }
+		player.insert { name = "infinity-chest", count = 50 }
 		-- 永续管
 		player.insert { name = "infinity-pipe", count = 10 }
 		-- 极速装卸机
-		player.insert { name = "express-loader", count = 10 }
+		player.insert { name = "express-loader", count = 50 }
 	end
 
 	-- 冲锋枪
@@ -79,7 +82,7 @@ function GenerateResources(surface, area, resource_name, amount)
 end
 
 -- 放置蓝图
-local function PlaceBlueprint(surface, position, player, blueprint_string)
+local function PlaceBlueprint(surface, position, player, blueprint_string, is_destructible, is_minable)
 	local blueprint = player.cursor_stack
 	blueprint.import_stack(blueprint_string)
 
@@ -93,9 +96,11 @@ local function PlaceBlueprint(surface, position, player, blueprint_string)
 
 		for _, entity in pairs(entities) do
 			local _, new_entity = entity.revive()
-			new_entity.force = game.forces.player
-			new_entity.destructible = false
-			new_entity.minable = false
+			if new_entity ~= nil then
+				new_entity.force = game.forces.player
+				new_entity.destructible = is_destructible
+				new_entity.minable = is_minable
+			end
 		end
 	end
 end
@@ -231,14 +236,17 @@ local function ClearAndSetupInitArea(surface)
 
 	-- 放置太阳能
 	PlaceBlueprint(surface, { x = area.left_top[1] + 38.5, y = area.left_top[2] + 38.5 }, game.players[1],
-		SolarArray10_8MW)
+		SolarArray10_8MW, false, false)
 	PlaceBlueprint(surface, { x = area.left_top[1] + 38.5, y = area.right_bottom[2] - 38.5 - 1 }, game.players[1],
-		SolarArray10_8MW)
+		SolarArray10_8MW, false, false)
 	PlaceBlueprint(surface, { x = area.right_bottom[1] - 38.5 - 1, y = area.left_top[2] + 38.5 }, game.players[1],
-		SolarArray10_8MW)
+		SolarArray10_8MW, false, false)
 	PlaceBlueprint(surface, { x = area.right_bottom[1] - 38.5 - 1, y = area.right_bottom[2] - 38.5 - 1 }, game.players
 		[1],
-		SolarArray10_8MW)
+		SolarArray10_8MW, false, false)
+
+	-- 放置基础基地
+	PlaceBlueprint(surface, { 0, 0 }, game.players[1], BaseBlueprint, false, true)
 
 	-- 添加围墙
 	for x = area.left_top[1], area.right_bottom[1] - 1 do
@@ -373,14 +381,16 @@ local function AddBox(surface)
 		return
 	end
 
-	local logistic_chest_storage1 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 4, y = 0 + 4 }, force = game.forces.player }
-	local logistic_chest_storage2 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 3, y = 0 + 4 }, force = game.forces.player }
-	local logistic_chest_storage3 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 2, y = 0 + 4 }, force = game.forces.player }
-	local logistic_chest_storage4 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 1, y = 0 + 4 }, force = game.forces.player }
-	local logistic_chest_storage5 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 0, y = 0 + 4 }, force = game.forces.player }
-	local logistic_chest_storage6 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 1, y = 0 + 4 }, force = game.forces.player }
-	local logistic_chest_storage7 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 2, y = 0 + 4 }, force = game.forces.player }
-	local logistic_chest_storage8 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 3, y = 0 + 4 }, force = game.forces.player }
+	local logistic_chest_storage1 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 5, y = -180 }, force = game.forces.player }
+	local logistic_chest_storage2 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 4, y = -180 }, force = game.forces.player }
+	local logistic_chest_storage3 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 3, y = -180 }, force = game.forces.player }
+	local logistic_chest_storage4 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 2, y = -180 }, force = game.forces.player }
+	local logistic_chest_storage5 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 - 1, y = -180 }, force = game.forces.player }
+	local logistic_chest_storage6 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 0, y = -180 }, force = game.forces.player }
+	local logistic_chest_storage7 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 1, y = -180 }, force = game.forces.player }
+	local logistic_chest_storage8 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 2, y = -180 }, force = game.forces.player }
+	local logistic_chest_storage9 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 3, y = -180 }, force = game.forces.player }
+	local logistic_chest_storage10 = surface.create_entity { name = "logistic-chest-storage", position = { x = 0 + 4, y = -180 }, force = game.forces.player }
 	for _, item in ipairs(chest1_items) do
 		logistic_chest_storage1.insert(item)
 	end
@@ -404,6 +414,12 @@ local function AddBox(surface)
 	end
 	for _, item in ipairs(chest8_items) do
 		logistic_chest_storage8.insert(item)
+	end
+	for _, item in ipairs(chest9_items) do
+		logistic_chest_storage9.insert(item)
+	end
+	for _, item in ipairs(chest10_items) do
+		logistic_chest_storage10.insert(item)
 	end
 	global.startup_is_box_inited = true
 end
