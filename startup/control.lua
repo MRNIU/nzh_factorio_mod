@@ -240,6 +240,76 @@ local function ClearAndSetupInitArea(surface)
 		[1],
 		SolarArray10_8MW)
 
+	-- 添加围墙
+	for x = area.left_top[1], area.right_bottom[1] - 1 do
+		local stone_wall = surface.create_entity({
+			name = "stone-wall",
+			position = { x, area.left_top[2] },
+			force = game.forces.player
+		})
+		stone_wall.destructible = false
+
+		local stone_wall2 = surface.create_entity({
+			name = "stone-wall",
+			position = { x, area.left_top[2] + 2 },
+			force = game.forces.player
+		})
+		stone_wall2.destructible = false
+	end
+	for x = area.left_top[1], area.right_bottom[1] - 1 do
+		local stone_wall = surface.create_entity({
+			name = "stone-wall",
+			position = { x, area.right_bottom[2] - 1 },
+			force = game.forces.player
+		})
+		stone_wall.destructible = false
+
+		local stone_wall2 = surface.create_entity({
+			name = "stone-wall",
+			position = { x, area.right_bottom[2] - 3 },
+			force = game.forces.player
+		})
+		stone_wall2.destructible = false
+	end
+	for y = area.left_top[2], area.right_bottom[2] - 1 do
+		local stone_wall = surface.create_entity({
+			name = "stone-wall",
+			position = { area.left_top[1], y },
+			force = game.forces.player
+		})
+		if stone_wall ~= nil then
+			stone_wall.destructible = false
+		end
+
+		local stone_wall2 = surface.create_entity({
+			name = "stone-wall",
+			position = { area.left_top[1] + 2, y },
+			force = game.forces.player
+		})
+		if stone_wall2 ~= nil then
+			stone_wall2.destructible = false
+		end
+	end
+	for y = area.left_top[2], area.right_bottom[2] - 1 do
+		local stone_wall = surface.create_entity({
+			name = "stone-wall",
+			position = { area.right_bottom[1] - 1, y },
+			force = game.forces.player
+		})
+		if stone_wall ~= nil then
+			stone_wall.destructible = false
+		end
+
+		local stone_wall2 = surface.create_entity({
+			name = "stone-wall",
+			position = { area.right_bottom[1] - 3, y },
+			force = game.forces.player
+		})
+		if stone_wall2 ~= nil then
+			stone_wall2.destructible = false
+		end
+	end
+
 	-- 添加资源
 	local base_count = 10000
 	local grid_size = 32

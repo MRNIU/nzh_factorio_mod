@@ -158,7 +158,7 @@ chest5_items = {
 -- 物品箱 6 物品
 chest6_items = {
 	-- 极速传送带
-	{ name = "express-transport-belt",   count = 2000 },
+	{ name = "express-transport-belt",   count = 3200 },
 	-- 极速地下传送带
 	{ name = "express-underground-belt", count = 400 },
 	-- 极速分流器
@@ -167,10 +167,16 @@ chest6_items = {
 
 -- 物品箱 7 物品
 chest7_items = {
+	-- 极速传送带
+	{ name = "express-transport-belt", count = 2000 },
+	-- 机枪炮塔
+	{ name = "gun-turret",             count = 1000 },
 }
 
 -- 物品箱 8 物品
 chest8_items = {
+	-- 快速机械臂
+	{ name = "fast-inserter", count = 1000 },
 }
 
 -- 能量装甲装备
