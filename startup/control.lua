@@ -4,26 +4,16 @@
 -- control.lua for MRNIU/nzh_factorio_mod.
 
 require("items")
-require("0")
+require("1")
+require("blue_prints")
 require("functions")
 
--- 初始化玩家
-local function InitPlayer(player)
-	if global.startup_is_player_inited[player.index] == true then
-		return
-	end
-
-	-- 传送
-	player.teleport({ 0, -170 }, player.surface)
-
-	Level0(player)
-
-	global.startup_is_player_inited[player.index] = true
-end
+local startup_is_area_inited = false
+local startup_is_box_inited = false
 
 -- 设置初始区域
 local function ClearAndSetupInitArea(surface)
-	if global.startup_is_area_inited == true then
+	if startup_is_area_inited == true then
 		return
 	end
 
@@ -297,12 +287,12 @@ local function ClearAndSetupInitArea(surface)
 	water_infinity_pipe.operable = false
 	water_infinity_pipe.minable = false
 
-	global.startup_is_area_inited = true
+	startup_is_area_inited = true
 end
 
 -- 创建初始物品箱
 local function AddBox(surface)
-	if global.startup_is_box_inited == true then
+	if startup_is_box_inited == true then
 		return
 	end
 
@@ -346,20 +336,13 @@ local function AddBox(surface)
 	for _, item in ipairs(chest10_items) do
 		logistic_chest_storage10.insert(item)
 	end
-	global.startup_is_box_inited = true
+	startup_is_box_inited = true
 end
 
 local function main(player)
 	if player == nil then return end
 
-	if global.startup_is_player_inited == nil then
-		global.startup_is_player_inited = {}
-		global.startup_is_area_inited = false
-		global.startup_is_box_inited = false
-	end
-
 	ClearAndSetupInitArea(player.surface)
-	InitPlayer(player)
 	AddBox(player.surface)
 end
 

@@ -1,7 +1,11 @@
 -- This file is a part of MRNIU/nzh_factorio_mod
 -- (https://github.com/MRNIU/nzh_factorio_mod).
 --
--- 0.lua for MRNIU/nzh_factorio_mod.
+-- control.lua for MRNIU/nzh_factorio_mod.
+
+require("items")
+
+local startup_items_is_player_inited = {}
 
 -- 背包物品
 local player_inventory_items = {
@@ -106,7 +110,11 @@ local spidertron_trunk_items = {
 }
 
 -- 初始化玩家
-function Level0(player)
+local function InitPlayer(player)
+	if startup_items_is_player_inited[player.index] == true then
+		return
+	end
+
 	-- 清空已有物品
 	player.clear_items_inside()
 
@@ -156,4 +164,16 @@ function Level0(player)
 	end
 	-- 设置驾驶员
 	spidertron.set_driver(player)
+
+	startup_items_is_player_inited[player.index] = true
+end
+
+local function main(player)
+	if player == nil then return end
+
+	InitPlayer(player)
+end
+
+function startup_items_OnPlayerFirstJoinedGame(event)
+	main(game.get_player(event.player_index))
 end

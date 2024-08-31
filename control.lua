@@ -5,6 +5,7 @@
 
 require("time.control")
 require("startup.control")
+require("startup_items.control")
 require("long_reach.control")
 
 --------------------------------------------------------------------------------------
@@ -30,12 +31,14 @@ end
 local function OnPlayerCreated(event)
     NZH_time_on_player_created(event)
     startup_OnPlayerFirstJoinedGame(event)
+    startup_items_OnPlayerFirstJoinedGame(event)
 end
 
 --------------------------------------------------------------------------------------
 local function OnPlayerJoinedGame(event)
     NZH_time_on_player_joined_game(event)
     startup_OnPlayerFirstJoinedGame(event)
+    startup_items_OnPlayerFirstJoinedGame(event)
 end
 
 --------------------------------------------------------------------------------------
