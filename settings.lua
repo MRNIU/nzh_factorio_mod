@@ -3,3 +3,4 @@
 --
 -- settings.lua for MRNIU/nzh_factorio_mod.
 
+require("startup.settings")

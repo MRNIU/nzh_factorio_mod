@@ -23,6 +23,7 @@ end
 --------------------------------------------------------------------------------------
 local function OnConfigurationChanged(_data)
     NZH_time_on_configuration_changed()
+    long_reach_OnPlayerFirstJoinedGame()
 end
 
 --------------------------------------------------------------------------------------
@@ -48,9 +49,15 @@ local function OnGuiClick(event)
 end
 
 --------------------------------------------------------------------------------------
+local function OnRuntimeModSettingChanged()
+    long_reach_OnPlayerFirstJoinedGame()
+end
+
+--------------------------------------------------------------------------------------
 script.on_init(OnInit)
 script.on_configuration_changed(OnConfigurationChanged)
 script.on_event(defines.events.on_player_created, OnPlayerCreated)
 script.on_event(defines.events.on_player_joined_game, OnPlayerJoinedGame)
 script.on_event(defines.events.on_tick, OnTick)
 script.on_event(defines.events.on_gui_click, OnGuiClick)
+script.on_event(defines.events.on_runtime_mod_setting_changed, OnRuntimeModSettingChanged)

@@ -1,24 +1,44 @@
 -- This file is a part of MRNIU/nzh_factorio_mod
 -- (https://github.com/MRNIU/nzh_factorio_mod).
 --
--- control.lua for MRNIU/nzh_factorio_mod.
+-- functions.lua for MRNIU/nzh_factorio_mod.
 
-require("items")
-require("0")
-require("functions")
-
--- 初始化玩家
-local function InitPlayer(player)
-	if global.startup_is_player_inited[player.index] == true then
-		return
+-- 生成资源
+function GenerateResources(surface, area, resource_name, amount)
+	for x = area.left_top[1], area.right_bottom[1] - 1 do
+		for y = area.left_top[2], area.right_bottom[2] - 1 do
+			surface.create_entity({
+				name = resource_name,
+				amount = amount,
+				position = { x, y },
+				force = game.forces.neutral
+			})
+		end
 	end
+end
 
-	-- 传送
-	player.teleport({ 0, -170 }, player.surface)
+-- 放置蓝图
+function PlaceBlueprint(surface, position, player, blueprint_string, is_destructible, is_minable)
+	local blueprint = player.cursor_stack
+	blueprint.import_stack(blueprint_string)
 
-	Level0(player)
+	if blueprint.valid_for_read and blueprint.is_blueprint then
+		local entities = blueprint.build_blueprint {
+			surface = surface,
+			force = game.forces.player,
+			position = position,
+			force_build = true
+		}
 
-	global.startup_is_player_inited[player.index] = true
+		for _, entity in pairs(entities) do
+			local _, new_entity = entity.revive()
+			if new_entity ~= nil then
+				new_entity.force = game.forces.player
+				new_entity.destructible = is_destructible
+				new_entity.minable = is_minable
+			end
+		end
+	end
 end
 
 -- 设置初始区域
@@ -347,22 +367,4 @@ local function AddBox(surface)
 		logistic_chest_storage10.insert(item)
 	end
 	global.startup_is_box_inited = true
-end
-
-local function main(player)
-	if player == nil then return end
-
-	if global.startup_is_player_inited == nil then
-		global.startup_is_player_inited = {}
-		global.startup_is_area_inited = false
-		global.startup_is_box_inited = false
-	end
-
-	ClearAndSetupInitArea(player.surface)
-	InitPlayer(player)
-	AddBox(player.surface)
-end
-
-function startup_OnPlayerFirstJoinedGame(event)
-	main(game.get_player(event.player_index))
 end
