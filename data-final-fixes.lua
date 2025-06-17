@@ -3,8 +3,6 @@
 --
 -- data.lua for MRNIU/nzh_factorio_mod.
 
--- require("bottleneck.data-final-fixes")
-
 --- 手搓一切
 for k, character in pairs(data.raw.character) do
     local alreadyIn = {}
