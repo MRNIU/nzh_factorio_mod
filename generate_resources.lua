@@ -4,6 +4,9 @@
 -- generate_resources.lua for MRNIU/nzh_factorio_mod.
 -- 资源生成器 - 用于在指定区域内生成指定类型与数量的资源
 
+-- 引入区块工具模块
+local chunk_utils = require("chunk_utils")
+
 --------------------------------------------------------------------------------------
 -- 在指定surface指定区域内生成指定类型与数量的资源
 -- @param surface: 目标表面对象
@@ -24,8 +27,10 @@ local function generate_resources_in_area(surface, area, resource_name, total_am
     if not resource_name or not total_amount or total_amount <= 0 then
         return false
     end
+    density = density or 1024        -- 默认密度
 
-    density = density or 1024 -- 默认密度
+    -- 强制生成区域内的所有chunk
+    chunk_utils.force_generate_chunks(surface, area)
 
     -- 计算区域大小
     local left_top = area.left_top

@@ -4,6 +4,9 @@
 -- area_cleaner.lua for MRNIU/nzh_factorio_mod.
 -- 区域清理器 - 用于清空指定区域内的所有实体并替换地表
 
+-- 引入区块工具模块
+local chunk_utils = require("chunk_utils")
+
 --------------------------------------------------------------------------------------
 -- 清空指定区域内的所有实体，并将地表替换为土地
 -- @param surface: 目标表面对象
@@ -27,10 +30,12 @@ local function clear_area_to_land(surface, area)
     if not surface_allowed then
         return false
     end
-
     if not area or not area.left_top or not area.right_bottom then
         return false
     end
+
+    -- 强制生成区域内的所有chunk
+    chunk_utils.force_generate_chunks(surface, area)
 
     -- 删除所有实体（包括敌人、建筑、树木、岩石等）
     local entities = surface.find_entities(area)
