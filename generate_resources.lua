@@ -27,7 +27,7 @@ local function generate_resources_in_area(surface, area, resource_name, total_am
     if not resource_name or not total_amount or total_amount <= 0 then
         return false
     end
-    density = density or 1024        -- 默认密度
+    density = density or 1024 -- 默认密度
 
     -- 强制生成区域内的所有chunk
     chunk_utils.force_generate_chunks(surface, area)
@@ -236,40 +236,40 @@ local function generate_resource_vulcanus(amount)
         amount = 1024 * 8
     end
 
-    -- 生成钨矿区域 (X: -176 to -112)
+    -- 生成煤炭区域 (X: -80 to -48)
     generate_resources_by_coordinates(
         surface,
-        -176, -160, -112, -96,
-        "tungsten-ore",
-        amount * 2
+        -80, -160, -48, -96,
+        "coal",
+        amount
     )
 
-    -- -- 生成硫磺区域 (X: -112 to -48)
-    -- generate_resources_by_coordinates(
-    --     surface,
-    --     -112, -160, -48, -96,
-    --     "sulfuric-acid-geyser",
-    --     amount
-    -- )
+    -- 生成方解石区域 (X: -48 to -16)
+    generate_resources_by_coordinates(
+        surface,
+        -48, -160, -16, -96,
+        "calcite",
+        amount
+    )
 
-    -- -- 生成煤炭区域 (X: -48 to 16)
-    -- generate_resources_by_coordinates(
-    --     surface,
-    --     -48, -160, 16, -96,
-    --     "coal",
-    --     amount * 3
-    -- )
+    -- 预留区域-硫酸 (X: -16 to 16)
+    -- 在指定区域生成硫酸
+    surface.create_entity {
+        name = "sulfuric-acid-geyser",
+        position = { 0, -128 },
+        amount = amount * 1024 * 1024
+    }
 
-    -- -- 生成石头区域 (X: 16 to 80)
-    -- generate_resources_by_coordinates(
-    --     surface,
-    --     16, -160, 80, -96,
-    --     "stone",
-    --     amount * 2
-    -- )
+    -- 生成钨矿区域 (X: 16 to 48)
+    generate_resources_by_coordinates(
+        surface,
+        16, -160, 48, -96,
+        "tungsten-ore",
+        amount
+    )
 
-    -- 生成熔岩区域 (X: 80 to 176)
-    for x = 80, 175 do
+    -- 生成熔岩区域 (X: 48 to 80)
+    for x = 48, 80 do
         for y = -160, -97 do
             surface.set_tiles({ { name = "lava", position = { x, y } } })
         end
@@ -292,43 +292,39 @@ local function generate_resource_gleba(amount)
         amount = 1024 * 8
     end
 
-    -- 生成铁矿区域 (X: -176 to -112)
+    -- 生成石头区域 (X: -80 to -48)
     generate_resources_by_coordinates(
         surface,
-        -176, -160, -112, -96,
-        "iron-ore",
+        -80, -160, -48, -96,
+        "stone",
         amount
     )
 
-    -- -- 生成铜矿区域 (X: -112 to -48)
-    -- generate_resources_by_coordinates(
-    --     surface,
-    --     -112, -160, -48, -96,
-    --     "copper-ore",
-    --     amount
-    -- )
-
-    -- -- 生成石头区域 (X: -48 to 16)
-    -- generate_resources_by_coordinates(
-    --     surface,
-    --     -48, -160, 16, -96,
-    --     "stone",
-    --     amount
-    -- )
-
-    -- -- 生成石油区域 (X: 16 to 80)
-    -- for i = 0, 3 do
-    --     surface.create_entity {
-    --         name = "crude-oil",
-    --         position = { 32 + i * 16, -128 },
-    --         amount = amount * 1024 * 1024
-    --     }
-    -- end
-
-    -- 生成沼泽水域 (X: 80 to 176)
-    for x = 80, 175 do
+    -- 生成果冻果沃土 (X: -48 to -16)
+    for x = -48, -16 do
         for y = -160, -97 do
-            surface.set_tiles({ { name = "water-shallow", position = { x, y } } })
+            surface.set_tiles({ { name = "overgrowth-jellynut-soil", position = { x, y } } })
+        end
+    end
+
+    -- 生成玉玛果沃土 (X: -16 to 16)
+    for x = -16, 16 do
+        for y = -160, -97 do
+            surface.set_tiles({ { name = "overgrowth-yumako-soil", position = { x, y } } })
+        end
+    end
+
+    -- 生成沼泽水域 (X: 16 to 48)
+    for x = 16, 48 do
+        for y = -160, -97 do
+            surface.set_tiles({ { name = "gleba-deep-lake", position = { x, y } } })
+        end
+    end
+
+    -- 生成沼泽水域 (X: 48 to 80)
+    for x = 48, 80 do
+        for y = -160, -97 do
+            surface.set_tiles({ { name = "gleba-deep-lake", position = { x, y } } })
         end
     end
 
@@ -349,46 +345,45 @@ local function generate_resource_fulgora(amount)
         amount = 1024 * 8
     end
 
-    -- 生成铁矿区域 (X: -176 to -112)
+    -- 生成废料回收区域 (X: -80 to -48)
     generate_resources_by_coordinates(
         surface,
-        -176, -160, -112, -96,
-        "iron-ore",
+        -80, -160, -48, -96,
+        "scrap",
         amount
     )
 
-    -- -- 生成铜矿区域 (X: -112 to -48)
-    -- generate_resources_by_coordinates(
-    --     surface,
-    --     -112, -160, -48, -96,
-    --     "copper-ore",
-    --     amount
-    -- )
-
-    -- -- 生成石油区域 (X: -48 to 16)
-    -- for i = 0, 3 do
-    --     surface.create_entity {
-    --         name = "crude-oil",
-    --         position = { -32 + i * 16, -128 },
-    --         amount = amount * 1024 * 1024
-    --     }
-    -- end
-
-    -- -- 生成重油泥区域 (X: 16 to 80)
-    -- generate_resources_by_coordinates(
-    --     surface,
-    --     16, -160, 80, -96,
-    --     "lithium-brine",
-    --     amount * 2
-    -- )
-
-    -- 生成废料回收区域 (X: 80 to 176)
+    -- 生成废料回收区域 (X: -48 to -16)
     generate_resources_by_coordinates(
         surface,
-        80, -160, 176, -96,
+        -48, -160, -16, -96,
         "scrap",
-        amount * 5
+        amount
     )
+
+    -- 生成废料回收区域 (X: -16 to 16)
+    -- 在指定区域生成硫酸
+    generate_resources_by_coordinates(
+        surface,
+        -16, -160, 16, -96,
+        "scrap",
+        amount
+    )
+
+    -- 生成废料回收区域 (X: -16 to 16)
+    generate_resources_by_coordinates(
+        surface,
+        -16, -160, 16, -96,
+        "scrap",
+        amount
+    )
+
+    -- 生成油海 (X: 16 to 48)
+    for x = 16, 48 do
+        for y = -160, -97 do
+            surface.set_tiles({ { name = "oil-ocean-shallow", position = { x, y } } })
+        end
+    end
 
     return true
 end
@@ -407,43 +402,43 @@ local function generate_resource_aquilo(amount)
         amount = 1024 * 8
     end
 
-    -- -- 生成氟化物区域 (X: -176 to -112)
-    -- generate_resources_by_coordinates(
-    --     surface,
-    --     -176, -160, -112, -96,
-    --     "fluorine",
-    --     amount * 2
-    -- )
+    -- 预留区域-lithium-brine (X: 80 to -48)
+    -- 在指定区域生成lithium-brine
+    surface.create_entity {
+        name = "lithium-brine",
+        position = { -64, -128 },
+        amount = amount * 1024 * 1024
+    }
 
-    -- 生成铁矿区域 (X: -112 to -48)
-    generate_resources_by_coordinates(
-        surface,
-        -112, -160, -48, -96,
-        "iron-ore",
-        amount
-    )
+    -- 预留区域-fluorine-vent (X: -48 to -16)
+    -- 在指定区域生成fluorine-vent
+    surface.create_entity {
+        name = "fluorine-vent",
+        position = { -32, -128 },
+        amount = amount * 1024 * 1024
+    }
 
-    -- -- 生成石头区域 (X: -48 to 16)
-    -- generate_resources_by_coordinates(
-    --     surface,
-    --     -48, -160, 16, -96,
-    --     "stone",
-    --     amount
-    -- )
+    -- 预留区域-crude-oil (X: -16 to 16)
+    -- 在指定区域生成crude-oil
+    surface.create_entity {
+        name = "crude-oil",
+        position = { 0, -128 },
+        amount = amount * 1024 * 1024
+    }
 
-    -- -- 生成水域 (X: 16 to 80)
-    -- for x = 16, 79 do
-    --     for y = -160, -97 do
-    --         surface.set_tiles({ { name = "water", position = { x, y } } })
-    --     end
-    -- end
+    -- 生成氨海 (X: 16 to 48)
+    for x = 16, 48 do
+        for y = -160, -97 do
+            surface.set_tiles({ { name = "ammoniacal-ocean", position = { x, y } } })
+        end
+    end
 
-    -- -- 生成冰层区域 (X: 80 to 176)
-    -- for x = 80, 175 do
-    --     for y = -160, -97 do
-    --         surface.set_tiles({ { name = "ice-platform", position = { x, y } } })
-    --     end
-    -- end
+    -- 生成氨海 (X: 48 to 80)
+    for x = 48, 80 do
+        for y = -160, -97 do
+            surface.set_tiles({ { name = "ammoniacal-ocean", position = { x, y } } })
+        end
+    end
 
     return true
 end
