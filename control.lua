@@ -4,16 +4,13 @@
 -- control.lua for MRNIU/nzh_factorio_mod.
 
 -- 引入区域清理器模块
-require("area_cleaner")
+local area_cleaner = require("area_cleaner")
 
 --------------------------------------------------------------------------------------
+-- 在游戏初始化时清空中心区域
 local function OnInit()
-    if remote.interfaces["freeplay"] then
-        -- 不生成飞船残骸
-        remote.call("freeplay", "set_disable_crashsite", true)
-        -- 跳过开场介绍
-        remote.call("freeplay", "set_skip_intro", true)
-    end
+    -- 清空中心区域
+    area_cleaner.clear_center_area(game.surfaces.nauvis)
 
 end
 
