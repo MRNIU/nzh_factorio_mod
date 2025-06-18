@@ -3,6 +3,9 @@
 --
 -- control.lua for MRNIU/nzh_factorio_mod.
 
+-- 引入区域清理器模块
+require("area_cleaner")
+
 --------------------------------------------------------------------------------------
 local function OnInit()
     if remote.interfaces["freeplay"] then
