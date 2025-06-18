@@ -14,6 +14,20 @@ local function clear_area_to_land(surface, area)
         return false
     end
 
+    -- 检查表面名称是否在允许的列表中
+    local allowed_surfaces = { "nauvis", "vulcanus", "gleba", "fulgora", "aquilo" }
+    local surface_allowed = false
+    for _, allowed_name in pairs(allowed_surfaces) do
+        if surface.name == allowed_name then
+            surface_allowed = true
+            break
+        end
+    end
+
+    if not surface_allowed then
+        return false
+    end
+
     if not area or not area.left_top or not area.right_bottom then
         return false
     end
