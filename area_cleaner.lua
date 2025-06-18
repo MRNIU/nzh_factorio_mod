@@ -8,7 +8,7 @@
 local chunk_utils = require("chunk_utils")
 
 --------------------------------------------------------------------------------------
--- 清空指定区域内的所有实体，并将地表替换为土地
+-- 清空指定区域内的所有实体，并根据星球类型替换地表
 -- @param surface: 目标表面对象
 -- @param area: 区域定义 {left_top = {x, y}, right_bottom = {x, y}}
 -- @return boolean: 成功返回true，失败返回false
@@ -68,16 +68,26 @@ local function clear_area_to_land(surface, area)
         if cliff.valid then
             cliff.destroy()
         end
-    end
-
-    -- 将地形替换为草地（土地）
+    end -- 根据不同星球替换地形
     local tiles = {}
     local left_top = area.left_top
     local right_bottom = area.right_bottom
 
+    -- 不同星球的默认地形配置
+    local planet_terrain = {
+        nauvis = "grass-1",
+        vulcanus = "volcanic-soil-dark",
+        gleba = "pit-rock",
+        fulgora = "fulgoran-dust",
+        aquilo = "snow-crests"
+    }
+
+    -- 根据星球名称选择合适的地形
+    local tile_name = planet_terrain[surface.name] or "grass-1" -- 默认使用草地
+
     for x = left_top.x or left_top[1], right_bottom.x or right_bottom[1] - 1 do
         for y = left_top.y or left_top[2], right_bottom.y or right_bottom[2] - 1 do
-            table.insert(tiles, { name = "grass-1", position = { x, y } })
+            table.insert(tiles, { name = tile_name, position = { x, y } })
         end
     end
 
