@@ -3,62 +3,122 @@
 --
 -- legendary_items.lua for MRNIU/nzh_factorio_mod.
 
--- 定义要添加的传奇装备列表
-local legendary_equipment = {
-    { name = "toolbelt-equipment",               quality = "legendary", count = 5 },
-    { name = "fusion-reactor-equipment",         quality = "legendary", count = 4 },
-    { name = "battery-mk3-equipment",            quality = "legendary", count = 7 },
-    { name = "solar-panel-equipment",            quality = "legendary", count = 1 },
-    { name = "belt-immunity-equipment",          quality = "legendary", count = 1 },
-    { name = "exoskeleton-equipment",            quality = "legendary", count = 14 },
-    { name = "night-vision-equipment",           quality = "legendary", count = 1 },
-    { name = "energy-shield-mk2-equipment",      quality = "legendary", count = 3 },
-    { name = "personal-laser-defense-equipment", quality = "legendary", count = 4 },
-    { name = "personal-roboport-mk2-equipment",  quality = "legendary", count = 4 },
-}
-
 --------------------------------------------------------------------------------------
 -- 配置传奇机甲
 local function init_legendary_mech_armor(mech_armor)
     local grid = mech_armor.grid
 
-    -- 手动指定装备位置配置
+    -- 手动指定装备位置配置 (机甲网格: 15宽 × 17高，索引从0开始)
     local equipment_positions = {
-        -- toolbelt-equipment 在最上方一行 (y=0)
-        { name = "toolbelt-equipment",       positions = { { 0, 0 }, { 3, 0 }, { 6, 0 }, { 9, 0 }, { 12, 0 } } },
-
-        -- fusion-reactor-equipment 在左上角 (4个，2x2排列)
-        { name = "fusion-reactor-equipment", positions = { { 0, 1 }, { 5, 1 }, { 0, 5 }, { 5, 5 } } },
-
-        -- exoskeleton-equipment 在左下角 (14个，从左下角开始向右向上填充)
+        -- toolbelt-equipment(3×1) - 放在顶部
         {
-            name = "exoskeleton-equipment",
+            name = "toolbelt-equipment",
             positions = {
-                { 0, 7 }, { 1, 7 }, { 2, 7 }, { 3, 7 }, { 4, 7 }, { 5, 7 }, { 6, 7 }, -- 最下方一行
-                { 0, 6 }, { 1, 6 }, { 2, 6 }, { 3, 6 }, { 4, 6 }, { 5, 6 }, { 6, 6 }  -- 倒数第二行
+                { 0, 0 }, { 3, 0 }, { 6, 0 }, { 9, 0 }, { 12, 0 }  -- 5个工具栏装备
             }
         },
 
-        -- battery-mk3-equipment 在最右边一列 (7个，从上到下)
-        { name = "battery-mk3-equipment",            positions = { { 9, 0 }, { 9, 1 }, { 9, 2 }, { 9, 3 }, { 9, 4 }, { 9, 5 }, { 9, 6 } } },
+        -- fusion-reactor-equipment(4×4) - 主要能源设备
+        {
+            name = "fusion-reactor-equipment",
+            positions = {
+                { 0, 1 },   -- 左上角 (0,1) 到 (3,4)
+                { 4, 1 },   -- 中上 (4,1) 到 (7,4) 
+                { 8, 1 },   -- 右上 (8,1) 到 (11,4)
+                { 0, 5 }    -- 左下 (0,5) 到 (3,8)
+            }
+        },
 
-        -- solar-panel-equipment 在最右边一列
-        { name = "solar-panel-equipment",            positions = { { 9, 7 } } },
+        -- night-vision-equipment(2×2) - 夜视装备
+        {
+            name = "night-vision-equipment",
+            positions = {
+                { 12, 1 }   -- 右上角 (12,1) 到 (13,2)
+            }
+        },
 
-        -- belt-immunity-equipment 在最右边一列 (如果还有空间的话)
-        { name = "belt-immunity-equipment",          positions = { { 8, 7 } } },
+        -- solar-panel-equipment(1×1) - 太阳能板
+        {
+            name = "solar-panel-equipment",
+            positions = {
+                { 14, 1 }   -- 最右上角
+            }
+        },
 
-        -- night-vision-equipment 按列放入
-        { name = "night-vision-equipment",           positions = { { 2, 1 } } },
+        -- belt-immunity-equipment(1×1) - 传送带免疫
+        {
+            name = "belt-immunity-equipment",
+            positions = {
+                { 14, 2 }   -- 紧邻太阳能板下方
+            }
+        },
 
-        -- energy-shield-mk2-equipment 按列放入 (3个)
-        { name = "energy-shield-mk2-equipment",      positions = { { 3, 1 }, { 4, 1 }, { 5, 1 } } },
+        -- battery-mk3-equipment(1×2) - 电池，放在右侧
+        {
+            name = "battery-mk3-equipment",
+            positions = {
+                { 14, 3 },  -- (14,3) 到 (14,4)
+                { 14, 5 },  -- (14,5) 到 (14,6)
+                { 14, 7 },  -- (14,7) 到 (14,8)
+                { 14, 9 },  -- (14,9) 到 (14,10)
+                { 14, 11 }, -- (14,11) 到 (14,12)
+                { 14, 13 }, -- (14,13) 到 (14,14)
+                { 14, 15 }  -- (14,15) 到 (14,16)
+            }
+        },
 
-        -- personal-laser-defense-equipment 按列放入 (4个)
-        { name = "personal-laser-defense-equipment", positions = { { 6, 1 }, { 7, 1 }, { 8, 1 }, { 6, 2 } } },
+        -- energy-shield-mk2-equipment(2×2) - 能量护盾
+        {
+            name = "energy-shield-mk2-equipment",
+            positions = {
+                { 4, 5 },   -- (4,5) 到 (5,6)
+                { 6, 5 },   -- (6,5) 到 (7,6)
+                { 8, 5 }    -- (8,5) 到 (9,6)
+            }
+        },
 
-        -- personal-roboport-mk2-equipment 按列放入 (4个)
-        { name = "personal-roboport-mk2-equipment",  positions = { { 7, 2 }, { 8, 2 }, { 6, 3 }, { 7, 3 } } }
+        -- personal-laser-defense-equipment(2×2) - 个人激光防御
+        {
+            name = "personal-laser-defense-equipment",
+            positions = {
+                { 10, 5 },  -- (10,5) 到 (11,6)
+                { 12, 5 },  -- (12,5) 到 (13,6)
+                { 0, 9 },   -- (0,9) 到 (1,10)
+                { 2, 9 }    -- (2,9) 到 (3,10)
+            }
+        },
+
+        -- personal-roboport-mk2-equipment(2×2) - 个人机器人港
+        {
+            name = "personal-roboport-mk2-equipment",
+            positions = {
+                { 4, 9 },   -- (4,9) 到 (5,10)
+                { 6, 9 },   -- (6,9) 到 (7,10)
+                { 8, 9 },   -- (8,9) 到 (9,10)
+                { 10, 9 }   -- (10,9) 到 (11,10)
+            }
+        },
+
+        -- exoskeleton-equipment(2×4) - 外骨骼装备，放在底部
+        {
+            name = "exoskeleton-equipment",
+            positions = {
+                { 0, 11 },  -- (0,11) 到 (1,14)
+                { 2, 11 },  -- (2,11) 到 (3,14)
+                { 4, 11 },  -- (4,11) 到 (5,14)
+                { 6, 11 },  -- (6,11) 到 (7,14)
+                { 8, 11 },  -- (8,11) 到 (9,14)
+                { 10, 11 }, -- (10,11) 到 (11,14)
+                { 12, 11 }, -- (12,11) 到 (13,14)
+                { 0, 15 },  -- (0,15) 到 (1,16) - 注意这里是y=15，到y=16正好不超出17的边界
+                { 2, 15 },  -- (2,15) 到 (3,16)
+                { 4, 15 },  -- (4,15) 到 (5,16)
+                { 6, 15 },  -- (6,15) 到 (7,16)
+                { 8, 15 },  -- (8,15) 到 (9,16)
+                { 10, 15 }, -- (10,15) 到 (11,16)
+                { 12, 15 }  -- (12,15) 到 (13,16)
+            }
+        }
     }
 
     -- 按指定位置添加装备
@@ -189,6 +249,7 @@ local function give_preset_legendary_items(player_name, preset_name)
 end
 
 return {
+    give_legendary_mech_armor = give_legendary_mech_armor,
     give_legendary_items = give_legendary_items,
     give_preset_legendary_items = give_preset_legendary_items,
     preset_legendary_items = preset_legendary_items
