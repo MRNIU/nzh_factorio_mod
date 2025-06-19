@@ -32,7 +32,11 @@ local normal_resources = {
     ["iron-ore"] = true,
     ["stone"] = true,
     ["uranium-ore"] = true,
-    ["coal"] = true
+    ["coal"] = true,
+    ["calcite"] = true,
+    ["tungsten-ore"] = true,
+    ["scrap"] = true,
+    ["ammoniacal-ocean"] = true
 }
 
 --------------------------------------------------------------------------------------
@@ -211,7 +215,7 @@ local function generate_resource_nauvis(amount)
         "iron-ore",
         "stone",
         "uranium-ore",
-        { "crude-oil", amount * 1024 * 1024 },
+        { name = "crude-oil", amount = amount * 1024 * 1024 },
         "water",
         "coal",
     }
@@ -228,7 +232,7 @@ local function generate_resource_vulcanus(amount)
     local resources = {
         "coal",
         "calcite",
-        { "sulfuric-acid-geyser", amount * 1024 * 1024 },
+        { name = "sulfuric-acid-geyser", amount = amount * 1024 * 1024 },
         "tungsten-ore",
         "lava",
     }
@@ -280,9 +284,9 @@ local function generate_resource_aquilo(amount)
     local surface = game.surfaces.aquilo
 
     local resources = {
-        { "lithium-brine", amount * 1024 * 1024 },
-        { "fluorine-vent", amount * 1024 * 1024 },
-        { "crude-oil",     amount * 1024 * 1024 },
+        { name = "lithium-brine", amount = amount * 1024 * 1024 },
+        { name = "fluorine-vent", amount = amount * 1024 * 1024 },
+        { name = "crude-oil",     amount = amount * 1024 * 1024 },
         "ammoniacal-ocean",
         "ammoniacal-ocean"
     }
@@ -298,7 +302,7 @@ local function generate_resource_planet(surface)
         return false
     end
 
-    local amount = 1024
+    local amount = 4096
 
     if surface.name == "nauvis" then
         generate_resource_nauvis(amount)
@@ -318,5 +322,6 @@ end
 --------------------------------------------------------------------------------------
 -- 导出函数供其他文件使用
 return {
-    generate_resource_planet = generate_resource_planet
+    generate_resource_planet = generate_resource_planet,
+    generate_resources_by_coordinates = generate_resources_by_coordinates
 }
