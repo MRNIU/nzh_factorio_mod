@@ -3,97 +3,56 @@
 --
 -- legendary_items.lua for MRNIU/nzh_factorio_mod.
 
-local legendary_items = {}
+-- 定义要添加的传奇装备列表
+local legendary_equipment = {
+    { name = "toolbelt-equipment",               quality = "legendary", count = 5 },
+    { name = "fusion-reactor-equipment",         quality = "legendary", count = 4 },
+    { name = "battery-mk3-equipment",            quality = "legendary", count = 7 },
+    { name = "solar-panel-equipment",            quality = "legendary", count = 1 },
+    { name = "belt-immunity-equipment",          quality = "legendary", count = 1 },
+    { name = "exoskeleton-equipment",            quality = "legendary", count = 14 },
+    { name = "night-vision-equipment",           quality = "legendary", count = 1 },
+    { name = "energy-shield-mk2-equipment",      quality = "legendary", count = 3 },
+    { name = "personal-laser-defense-equipment", quality = "legendary", count = 4 },
+    { name = "personal-roboport-mk2-equipment",  quality = "legendary", count = 4 },
+}
 
 --------------------------------------------------------------------------------------
 -- 给玩家添加传奇机甲装甲并配置装备
-function legendary_items.give_legendary_mech_armor(player_name)
-    local player = game.players[player_name]
-    if not player then
-        game.print("Player " .. player_name .. " not found")
-        return
-    end
-
+local function give_legendary_mech_armor(player)
     -- 创建传奇品质的机甲装甲
     local mech_armor = {
         name = "mech-armor",
         count = 1,
         quality = "legendary"
     }
-
-    -- 检查玩家装备栏是否有空位
-    local armor_inventory = player.get_inventory(defines.inventory.character_armor)
-
-    -- 先移除当前装甲
-    armor_inventory.clear()
-    -- 添加传奇机甲装甲
-    local inserted_armor = armor_inventory.insert(mech_armor)
-    if inserted_armor > 0 then
-        game.print("给玩家 " .. player_name .. " 添加了传奇机甲装甲")
-    else
-        game.print("无法给玩家 " .. player_name .. " 添加机甲装甲")
-    end
-end
-
---------------------------------------------------------------------------------------
--- 为机甲装甲配置传奇装备
-function legendary_items.equip_legendary_armor_equipment(player)
-    local armor_inventory = player.get_inventory(defines.inventory.character_armor)
-    if not armor_inventory or armor_inventory.is_empty() then
-        return
-    end
-
-    local armor = armor_inventory[1]
-    if not armor.valid_for_read or armor.name ~= "mech-armor" then
-        return
-    end
-
-    local grid = armor.grid
-    if not grid then
-        return
-    end
-
-    -- 清空现有装备
-    grid.clear()
-
-    -- 定义要添加的传奇装备列表
-    local legendary_equipment = {
-        { name = "toolbelt-equipment",               quality = "legendary", count = 1 },
-        { name = "fusion-reactor-equipment",         quality = "legendary", count = 4 },
-        { name = "battery-mk3-equipment",            quality = "legendary", count = 4 },
-        { name = "solar-panel-equipment",            quality = "legendary", count = 4 },
-        { name = "belt-immunity-equipment",          quality = "legendary", count = 1 },
-        { name = "exoskeleton-equipment",            quality = "legendary", count = 2 },
-        { name = "personal-roboport-mk2-equipment",  quality = "legendary", count = 4 },
-        { name = "night-vision-equipment",           quality = "legendary", count = 1 },
-        { name = "night-vision-equipment",           quality = "legendary", count = 1 },
-        { name = "night-vision-equipment",           quality = "legendary", count = 1 },
-        { name = "personal-laser-defense-equipment", quality = "legendary", count = 1 },
-        { name = "energy-shield-mk2-equipment",      quality = "legendary", count = 4 }
-    }
+    local grid = mech_armor.grid
 
     -- 添加装备到装备网格
     for _, equipment_data in pairs(legendary_equipment) do
-        if prototypes.equipment[equipment_data.name] then
-            for i = 1, equipment_data.count do
-                local position = grid.find_empty_stack(equipment_data.name)
-                if position then
-                    grid.put {
-                        name = equipment_data.name,
-                        position = position,
-                        quality = equipment_data.quality
-                    }
-                end
+        for i = 1, equipment_data.count do
+            local position = grid.find_empty_stack(equipment_data.name)
+            if position then
+                grid.put {
+                    name = equipment_data.name,
+                    position = position,
+                    quality = equipment_data.quality
+                }
             end
         end
     end
 
-    game.print("已为玩家 " .. player.name .. " 的机甲装甲配置传奇装备")
+    -- 检查玩家装备栏是否有空位
+    local armor_inventory = player.get_inventory(defines.inventory.character_armor)
+    -- 先移除当前装甲
+    armor_inventory.clear()
+    -- 添加传奇机甲装甲
+    armor_inventory.insert(mech_armor)
 end
 
 --------------------------------------------------------------------------------------
 -- 给玩家背包添加传奇物品
-function legendary_items.give_legendary_items(player_name, items)
+local function give_legendary_items(player_name, items)
     local player = game.players[player_name]
     if not player then
         game.print("Player " .. player_name .. " not found")
@@ -180,13 +139,17 @@ legendary_items.preset_legendary_items = {
 
 --------------------------------------------------------------------------------------
 -- 给玩家添加预设传奇物品包
-function legendary_items.give_preset_legendary_items(player_name, preset_name)
+local function give_preset_legendary_items(player_name, preset_name)
     if not legendary_items.preset_legendary_items[preset_name] then
         game.print("预设物品包 " .. preset_name .. " 不存在")
         return
     end
 
-    legendary_items.give_legendary_items(player_name, legendary_items.preset_legendary_items[preset_name])
+    give_legendary_items(player_name, legendary_items.preset_legendary_items[preset_name])
 end
 
-return legendary_items
+return {
+    give_legendary_mech_armor = give_legendary_mech_armor,
+    give_legendary_items = give_legendary_items,
+    give_preset_legendary_items = give_preset_legendary_items
+}
