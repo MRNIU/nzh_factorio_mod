@@ -12,88 +12,18 @@ local chunk_utils = require("chunk_utils")
 -- @param surface: 目标表面对象
 -- @param area: 区域定义 {left_top = {x, y}, right_bottom = {x, y}}
 -- @param resource_name: 资源类型名称（如 "iron-ore", "copper-ore", "coal", "stone", "uranium-ore", "crude-oil"）
--- @param total_amount: 要生成的资源总数量
 -- @param density: 资源密度（可选，默认为每个tile放置的资源数量的基础值）
 -- @return boolean: 成功返回true，失败返回false
-local function generate_resources_in_area(surface, area, resource_name, total_amount, density)
-    if not surface or not surface.valid then
-        return false
-    end
-
-    if not area or not area.left_top or not area.right_bottom then
-        return false
-    end
-
-    if not resource_name or not total_amount or total_amount <= 0 then
-        return false
-    end
-    density = density or 1024 -- 默认密度
-
-    -- 强制生成区域内的所有chunk
-    chunk_utils.force_generate_chunks(surface, area)
-
-    -- 计算区域大小
-    local left_top = area.left_top
-    local right_bottom = area.right_bottom
-    local width = (right_bottom.x or right_bottom[1]) - (left_top.x or left_top[1])
-    local height = (right_bottom.y or right_bottom[2]) - (left_top.y or left_top[2])
-    local area_size = width * height
-
-    if area_size <= 0 then
-        return false
-    end
-
-    -- 先清除区域内现有的资源
-    local existing_resources = surface.find_entities_filtered {
-        area = area,
-        type = "resource"
-    }
-    for _, resource in pairs(existing_resources) do
-        if resource.valid then
-            resource.destroy()
-        end
-    end
-
+local function generate_resources_in_area(surface, area, resource_name, density)
     -- 生成资源位置列表
-    local positions = {}
-    for x = left_top.x or left_top[1], (right_bottom.x or right_bottom[1]) - 1 do
-        for y = left_top.y or left_top[2], (right_bottom.y or right_bottom[2]) - 1 do
-            -- 检查该位置是否可以放置资源（没有其他实体占用）
-            local entities_at_position = surface.find_entities_filtered {
+    for x = area.left_top.x, area.right_bottom.x - 1 do
+        for y = area.left_top.y, area.right_bottom.y - 1 do
+            -- 创建资源实体
+            surface.create_entity {
+                name = resource_name,
                 position = { x, y },
-                collision_mask = "resource"
+                amount = density
             }
-            if #entities_at_position == 0 then
-                table.insert(positions, { x = x, y = y })
-            end
-        end
-    end
-
-    if #positions == 0 then
-        return false -- 没有可用位置
-    end
-
-    -- 计算每个位置的资源数量
-    local amount_per_position = math.max(1, math.floor(total_amount / #positions))
-    local remaining_amount = total_amount
-
-    -- 在每个可用位置生成资源
-    for i, position in pairs(positions) do
-        if remaining_amount <= 0 then
-            break
-        end
-
-        local amount_to_place = math.min(amount_per_position, remaining_amount)
-
-        -- 创建资源实体
-        local resource_entity = surface.create_entity {
-            name = resource_name,
-            position = position,
-            amount = amount_to_place * density
-        }
-
-        if resource_entity and resource_entity.valid then
-            remaining_amount = remaining_amount - amount_to_place
         end
     end
 
@@ -106,15 +36,14 @@ end
 -- @param x1, y1: 左上角坐标
 -- @param x2, y2: 右下角坐标
 -- @param resource_name: 资源类型名称
--- @param total_amount: 要生成的资源总数量
--- @param density: 资源密度（可选，默认1024）
-local function generate_resources_by_coordinates(surface, x1, y1, x2, y2, resource_name, total_amount, density)
+-- @param density: 资源密度
+local function generate_resources_by_coordinates(surface, x1, y1, x2, y2, resource_name, density)
     local area = {
         left_top = { x = math.min(x1, x2), y = math.min(y1, y2) },
         right_bottom = { x = math.max(x1, x2), y = math.max(y1, y2) }
     }
 
-    return generate_resources_in_area(surface, area, resource_name, total_amount, density or 1024)
+    return generate_resources_in_area(surface, area, resource_name, density)
 end
 
 --------------------------------------------------------------------------------------
@@ -122,14 +51,6 @@ end
 -- 适合地球星球的资源配置
 local function generate_resource_nauvis(amount)
     local surface = game.surfaces.nauvis
-
-    if not surface or not surface.valid then
-        return false
-    end
-
-    if not amount or amount <= 0 then
-        amount = 1024 * 8 -- 默认资源数量
-    end
 
     -- 生成铜矿区域1 (X: -176 to -144)
     generate_resources_by_coordinates(
@@ -228,14 +149,6 @@ end
 local function generate_resource_vulcanus(amount)
     local surface = game.surfaces.vulcanus
 
-    if not surface or not surface.valid then
-        return false
-    end
-
-    if not amount or amount <= 0 then
-        amount = 1024 * 8
-    end
-
     -- 生成煤炭区域 (X: -80 to -48)
     generate_resources_by_coordinates(
         surface,
@@ -284,14 +197,6 @@ end
 local function generate_resource_gleba(amount)
     local surface = game.surfaces.gleba
 
-    if not surface or not surface.valid then
-        return false
-    end
-
-    if not amount or amount <= 0 then
-        amount = 1024 * 8
-    end
-
     -- 生成石头区域 (X: -80 to -48)
     generate_resources_by_coordinates(
         surface,
@@ -336,14 +241,6 @@ end
 -- 适合雷电星球的资源配置
 local function generate_resource_fulgora(amount)
     local surface = game.surfaces.fulgora
-
-    if not surface or not surface.valid then
-        return false
-    end
-
-    if not amount or amount <= 0 then
-        amount = 1024 * 8
-    end
 
     -- 生成废料回收区域 (X: -80 to -48)
     generate_resources_by_coordinates(
@@ -393,14 +290,6 @@ end
 -- 适合冰雪星球的资源配置
 local function generate_resource_aquilo(amount)
     local surface = game.surfaces.aquilo
-
-    if not surface or not surface.valid then
-        return false
-    end
-
-    if not amount or amount <= 0 then
-        amount = 1024 * 8
-    end
 
     -- 预留区域-lithium-brine (X: 80 to -48)
     -- 在指定区域生成lithium-brine
@@ -482,7 +371,8 @@ end
 -- @param default_amount: 默认资源数量（当resource_list为字符串或资源项未指定amount时使用）
 -- @param default_density: 默认资源密度（可选，默认1024）
 -- @return boolean: 成功返回true，失败返回false
-local function generate_resources_pattern(surface, start_position, direction, area_size, spacing, resource_list, default_amount, default_density)
+local function generate_resources_pattern(surface, start_position, direction, area_size, spacing, resource_list,
+                                          default_amount, default_density)
     if not surface or not surface.valid then
         return false
     end
@@ -516,14 +406,14 @@ local function generate_resources_pattern(surface, start_position, direction, ar
     local count = 1
     if type(resource_list) == "string" then
         -- 单个资源字符串
-        resources = {{name = resource_list, amount = default_amount, density = default_density}}
+        resources = { { name = resource_list, amount = default_amount, density = default_density } }
         count = 1
     elseif type(resource_list) == "table" then
         -- 资源列表
         for i, resource in ipairs(resource_list) do
             if type(resource) == "string" then
                 -- 资源名称字符串
-                table.insert(resources, {name = resource, amount = default_amount, density = default_density})
+                table.insert(resources, { name = resource, amount = default_amount, density = default_density })
             elseif type(resource) == "table" and resource.name then
                 -- 资源配置对象
                 table.insert(resources, {
@@ -567,7 +457,7 @@ local function generate_resources_pattern(surface, start_position, direction, ar
         -- 循环使用资源列表中的资源
         local resource_index = ((i - 1) % #resources) + 1
         local current_resource = resources[resource_index]
-        
+
         -- 计算当前区域的位置
         local current_x = start_position.x
         local current_y = start_position.y
@@ -600,22 +490,20 @@ local function generate_resources_pattern(surface, start_position, direction, ar
                 surface.set_tiles(tiles)
                 success_count = success_count + 1
             end
-
         elseif fluid_resources[current_resource.name] then
             -- 流体资源 - 在中心点create_entity
             local center_x = current_x + math.floor(area_size.width / 2)
             local center_y = current_y + math.floor(area_size.height / 2)
-            
+
             local entity = surface.create_entity {
                 name = current_resource.name,
                 position = { center_x, center_y },
                 amount = current_resource.amount * current_resource.density
             }
-            
+
             if entity and entity.valid then
                 success_count = success_count + 1
             end
-
         else
             -- 普通矿物资源 - 使用现有的区域生成函数
             if generate_resources_in_area(surface, area, current_resource.name, current_resource.amount, current_resource.density) then
@@ -630,24 +518,17 @@ end
 --------------------------------------------------------------------------------------
 -- 导出函数供其他文件使用
 return {
-    generate_resources_in_area = generate_resources_in_area,
-    generate_resources_by_coordinates = generate_resources_by_coordinates,
-    generate_resource_nauvis = generate_resource_nauvis,
-    generate_resource_vulcanus = generate_resource_vulcanus,
-    generate_resource_gleba = generate_resource_gleba,
-    generate_resource_fulgora = generate_resource_fulgora,
-    generate_resource_aquilo = generate_resource_aquilo,
     generate_resource_planet = generate_resource_planet,
     generate_resources_pattern = generate_resources_pattern
 }
 
 -- 使用示例:
 -- 1. 单个资源 - 水平排列生成3个32x32的铁矿区域，间隔16格距离
--- generate_resources_pattern(game.surfaces.nauvis, {x=0, y=0}, "horizontal", {width=32, height=32}, 16, 
+-- generate_resources_pattern(game.surfaces.nauvis, {x=0, y=0}, "horizontal", {width=32, height=32}, 16,
 -- {"iron-ore", "iron-ore", "iron-ore"}, 5000)
 --
 -- 2. 多个资源（字符串列表） - 按顺序循环生成不同资源
--- generate_resources_pattern(game.surfaces.nauvis, {x=0, y=0}, "horizontal", {width=32, height=32}, 16, 
+-- generate_resources_pattern(game.surfaces.nauvis, {x=0, y=0}, "horizontal", {width=32, height=32}, 16,
 --   {"iron-ore", "copper-ore", "coal", "stone"}, 5000)  -- 按iron-ore, copper-ore, coal, stone的顺序循环
 --
 -- 3. 多个资源（详细配置） - 每种资源可以有不同的数量和密度
