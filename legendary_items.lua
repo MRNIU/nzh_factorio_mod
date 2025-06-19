@@ -155,13 +155,7 @@ end
 
 --------------------------------------------------------------------------------------
 -- 给玩家背包添加传奇物品
-local function give_legendary_items(player_name, items)
-    local player = game.players[player_name]
-    if not player then
-        game.print("Player " .. player_name .. " not found")
-        return
-    end
-
+local function give_legendary_items(player, items)
     local main_inventory = player.get_inventory(defines.inventory.character_main)
     if not main_inventory then
         game.print("无法访问玩家背包")
@@ -186,74 +180,50 @@ local function give_legendary_items(player_name, items)
             if inserted > 0 then
                 table.insert(added_items, item_count .. "x " .. item_quality .. " " .. item_name)
             end
-        else
-            game.print("物品 " .. item_name .. " 不存在，跳过")
         end
-    end
-
-    if #added_items > 0 then
-        game.print("给玩家 " .. player_name .. " 添加了以下传奇物品: " .. table.concat(added_items, ", "))
-    else
-        game.print("没有成功添加任何物品")
     end
 end
 
 --------------------------------------------------------------------------------------
 -- 预设的传奇物品包
 local preset_legendary_items = {
-    -- 基础建设包
-    construction = {
-        { name = "construction-robot",    count = 100 },
-        { name = "logistic-robot",        count = 100 },
-        { name = "roboport",              count = 10 },
-        { name = "assembling-machine-3",  count = 50 },
-        { name = "electric-furnace",      count = 20 },
-        { name = "beacon",                count = 20 },
-        { name = "productivity-module-3", count = 100 },
-        { name = "speed-module-3",        count = 100 },
-        { name = "efficiency-module-3",   count = 100 }
-    },
-
-    -- 战斗装备包
-    combat = {
-        { name = "power-armor-mk2",                  count = 1 },
-        { name = "personal-laser-defense-equipment", count = 5 },
-        { name = "energy-shield-mk2-equipment",      count = 3 },
-        { name = "exoskeleton-equipment",            count = 2 },
-        { name = "personal-roboport-mk2-equipment",  count = 2 },
-        { name = "fusion-reactor-equipment",         count = 1 },
-        { name = "combat-shotgun",                   count = 1 },
-        { name = "piercing-shotgun-shell",           count = 200 }
-    },
-
-    -- 交通运输包
-    transport = {
-        { name = "locomotive",        count = 5 },
-        { name = "cargo-wagon",       count = 20 },
-        { name = "fluid-wagon",       count = 10 },
-        { name = "rail",              count = 1000 },
-        { name = "train-stop",        count = 20 },
-        { name = "rail-signal",       count = 100 },
-        { name = "rail-chain-signal", count = 100 },
-        { name = "spidertron",        count = 1 },
-        { name = "spidertron-remote", count = 5 }
-    }
+    { name = "construction-robot",      count = 200 },
+    { name = "submachine-gun",          count = 3 },
+    { name = "uranium-rounds-magazine", count = 1600 },
+    { name = "substation",              count = 40 },
+    { name = "substation",              count = 50,  quality = "normal" },
+    { name = "roboport",                count = 10 },
+    { name = "storage-chest",           count = 80 },
+    { name = "solar-panel",             count = 1960 },
+    { name = "accumulator",             count = 1740 },
+    { name = "electric-furnace",        count = 50 },
+    { name = "big-mining-drill",        count = 20 },
+    { name = "offshore-pump",           count = 20 },
+    { name = "pumpjack",                count = 20 },
+    { name = "assembling-machine-3",    count = 50 },
+    { name = "pump",                    count = 50 },
+    { name = "uranium-235",             count = 400, quality = "normal" },
+    { name = "steel-chest",             count = 50,  quality = "normal" },
 }
 
 --------------------------------------------------------------------------------------
 -- 给玩家添加预设传奇物品包
-local function give_preset_legendary_items(player_name, preset_name)
-    if not preset_legendary_items[preset_name] then
-        game.print("预设物品包 " .. preset_name .. " 不存在")
+local function give_preset_legendary_items(player)
+    give_legendary_items(player, preset_legendary_items)
+end
+
+--------------------------------------------------------------------------------------
+-- 添加初始物品
+local function add_start_items(player)
+    if not player then
         return
     end
 
-    give_legendary_items(player_name, preset_legendary_items[preset_name])
+    give_legendary_mech_armor(player)
+    give_preset_legendary_items(player)
 end
 
 return {
-    give_legendary_mech_armor = give_legendary_mech_armor,
-    give_legendary_items = give_legendary_items,
+    add_start_items = add_start_items,
     give_preset_legendary_items = give_preset_legendary_items,
-    preset_legendary_items = preset_legendary_items
 }

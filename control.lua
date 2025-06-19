@@ -28,7 +28,7 @@ end
 -- 添加初始物品
 local function AddStartItem(event)
     local player = game.players[event.player_index]
-    legendary_items.give_legendary_mech_armor(player)
+    legendary_items.add_start_items(player)
 end
 
 --------------------------------------------------------------------------------------
