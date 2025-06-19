@@ -14,7 +14,7 @@ local function init_legendary_mech_armor(mech_armor)
         {
             name = "toolbelt-equipment",
             positions = {
-                { 0, 0 }, { 3, 0 }, { 6, 0 }, { 9, 0 }, { 12, 0 }  -- 5个工具栏装备
+                { 0, 0 }, { 3, 0 }, { 6, 0 }, { 9, 0 }, { 12, 0 } -- 5个工具栏装备
             }
         },
 
@@ -22,10 +22,10 @@ local function init_legendary_mech_armor(mech_armor)
         {
             name = "fusion-reactor-equipment",
             positions = {
-                { 0, 1 },   -- 左上角 (0,1) 到 (3,4)
-                { 4, 1 },   -- 中上 (4,1) 到 (7,4) 
-                { 8, 1 },   -- 右上 (8,1) 到 (11,4)
-                { 0, 5 }    -- 左下 (0,5) 到 (3,8)
+                { 0, 1 }, -- 左上角 (0,1) 到 (3,4)
+                { 4, 1 }, -- 中上 (4,1) 到 (7,4)
+                { 0, 5 }, -- 左下 (0,5) 到 (3,8)
+                { 4, 5 }, -- 右上 (4,5) 到 (7,8)
             }
         },
 
@@ -33,7 +33,17 @@ local function init_legendary_mech_armor(mech_armor)
         {
             name = "night-vision-equipment",
             positions = {
-                { 12, 1 }   -- 右上角 (12,1) 到 (13,2)
+                { 12, 1 } -- 右上角 (12,1) 到 (13,2)
+            }
+        },
+
+        -- energy-shield-mk2-equipment(2×2) - 能量护盾
+        {
+            name = "energy-shield-mk2-equipment",
+            positions = {
+                { 12, 3 }, -- (4,5) 到 (5,6)
+                { 12, 5 }, -- (6,5) 到 (7,6)
+                { 12, 7 }  -- (8,5) 到 (9,6)
             }
         },
 
@@ -41,7 +51,7 @@ local function init_legendary_mech_armor(mech_armor)
         {
             name = "solar-panel-equipment",
             positions = {
-                { 14, 1 }   -- 最右上角
+                { 14, 1 } -- 最右上角
             }
         },
 
@@ -49,7 +59,7 @@ local function init_legendary_mech_armor(mech_armor)
         {
             name = "belt-immunity-equipment",
             positions = {
-                { 14, 2 }   -- 紧邻太阳能板下方
+                { 14, 2 } -- 紧邻太阳能板下方
             }
         },
 
@@ -67,24 +77,15 @@ local function init_legendary_mech_armor(mech_armor)
             }
         },
 
-        -- energy-shield-mk2-equipment(2×2) - 能量护盾
-        {
-            name = "energy-shield-mk2-equipment",
-            positions = {
-                { 4, 5 },   -- (4,5) 到 (5,6)
-                { 6, 5 },   -- (6,5) 到 (7,6)
-                { 8, 5 }    -- (8,5) 到 (9,6)
-            }
-        },
 
         -- personal-laser-defense-equipment(2×2) - 个人激光防御
         {
             name = "personal-laser-defense-equipment",
             positions = {
-                { 10, 5 },  -- (10,5) 到 (11,6)
-                { 12, 5 },  -- (12,5) 到 (13,6)
-                { 0, 9 },   -- (0,9) 到 (1,10)
-                { 2, 9 }    -- (2,9) 到 (3,10)
+                { 10, 1 }, -- (10,5) 到 (11,6)
+                { 10, 3 }, -- (12,5) 到 (13,6)
+                { 10, 5 }, -- (0,9) 到 (1,10)
+                { 10, 7 }  -- (2,9) 到 (3,10)
             }
         },
 
@@ -92,10 +93,10 @@ local function init_legendary_mech_armor(mech_armor)
         {
             name = "personal-roboport-mk2-equipment",
             positions = {
-                { 4, 9 },   -- (4,9) 到 (5,10)
-                { 6, 9 },   -- (6,9) 到 (7,10)
-                { 8, 9 },   -- (8,9) 到 (9,10)
-                { 10, 9 }   -- (10,9) 到 (11,10)
+                { 8, 1 }, -- (4,9) 到 (5,10)
+                { 8, 3 }, -- (6,9) 到 (7,10)
+                { 8, 5 }, -- (8,9) 到 (9,10)
+                { 8, 7 }  -- (10,9) 到 (11,10)
             }
         },
 
@@ -103,20 +104,20 @@ local function init_legendary_mech_armor(mech_armor)
         {
             name = "exoskeleton-equipment",
             positions = {
-                { 0, 11 },  -- (0,11) 到 (1,14)
-                { 2, 11 },  -- (2,11) 到 (3,14)
-                { 4, 11 },  -- (4,11) 到 (5,14)
-                { 6, 11 },  -- (6,11) 到 (7,14)
-                { 8, 11 },  -- (8,11) 到 (9,14)
-                { 10, 11 }, -- (10,11) 到 (11,14)
-                { 12, 11 }, -- (12,11) 到 (13,14)
-                { 0, 15 },  -- (0,15) 到 (1,16) - 注意这里是y=15，到y=16正好不超出17的边界
-                { 2, 15 },  -- (2,15) 到 (3,16)
-                { 4, 15 },  -- (4,15) 到 (5,16)
-                { 6, 15 },  -- (6,15) 到 (7,16)
-                { 8, 15 },  -- (8,15) 到 (9,16)
-                { 10, 15 }, -- (10,15) 到 (11,16)
-                { 12, 15 }  -- (12,15) 到 (13,16)
+                { 0, 9 },   -- (0,11) 到 (1,14)
+                { 2, 9 },   -- (2,9) 到 (3,14)
+                { 4, 9 },   -- (4,9) 到 (5,14)
+                { 6, 9 },   -- (6,9) 到 (7,14)
+                { 8, 9 },   -- (8,9) 到 (9,14)
+                { 10, 9 },  -- (10,9) 到 (9,14)
+                { 12, 9 },  -- (12,11) 到 (13,14)
+                { 0, 13 },  -- (0,13) 到 (1,16) - 注意这里是y=15，到y=16正好不超出17的边界
+                { 2, 13 },  -- (2,13) 到 (3,16)
+                { 4, 13 },  -- (4,13) 到 (5,16)
+                { 6, 13 },  -- (6,13) 到 (7,16)
+                { 8, 13 },  -- (8,13) 到 (9,16)
+                { 10, 13 }, -- (10,13) 到 (11,16)
+                { 12, 13 }  -- (12,13) 到 (13,16)
             }
         }
     }
@@ -138,8 +139,10 @@ end
 local function give_legendary_mech_armor(player)
     -- 检查玩家装备栏是否有空位
     local armor_inventory = player.get_inventory(defines.inventory.character_armor)
-    -- 先移除当前装甲
-    armor_inventory.clear()
+    if not armor_inventory then
+        return
+    end
+
     -- 添加传奇机甲装甲
     armor_inventory.insert({
         name = "mech-armor",

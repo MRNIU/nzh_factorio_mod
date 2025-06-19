@@ -25,6 +25,15 @@ local function OnSurfaceCreated(event)
 end
 
 --------------------------------------------------------------------------------------
+-- 添加初始物品
+local function AddStartItem(event)
+    local player = game.players[event.player_index]
+    legendary_items.give_legendary_mech_armor(player)
+end
+
+--------------------------------------------------------------------------------------
 -- 事件注册
 script.on_init(OnInit)
 script.on_event(defines.events.on_surface_created, OnSurfaceCreated)
+script.on_event(defines.events.on_cutscene_cancelled, AddStartItem)
+script.on_event(defines.events.on_cutscene_finished, AddStartItem)
