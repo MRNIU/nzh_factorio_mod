@@ -7,27 +7,177 @@
 -- 引入区块工具模块
 local chunk_utils = require("chunk_utils")
 
+-- 定义地块类型的资源（需要使用set_tiles）
+local tile_resources = {
+    ["water"] = true,
+    ["lava"] = true,
+    ["oil-ocean-shallow"] = true,
+    ["gleba-deep-lake"] = true,
+    ["ammoniacal-ocean"] = true,
+    ["overgrowth-jellynut-soil"] = true,
+    ["overgrowth-yumako-soil"] = true
+}
+
+-- 定义流体资源
+local fluid_resources = {
+    ["crude-oil"] = true,
+    ["sulfuric-acid-geyser"] = true,
+    ["lithium-brine"] = true,
+    ["fluorine-vent"] = true
+}
+
+-- 定义普通类型的资源
+local normal_resources = {
+    ["copper-ore"] = true,
+    ["iron-ore"] = true,
+    ["stone"] = true,
+    ["uranium-ore"] = true,
+    ["coal"] = true
+}
+
 --------------------------------------------------------------------------------------
--- 在指定surface指定区域内生成指定类型与数量的资源
+-- 在指定 surface 指定区域内生成指定类型与数量的资源
 -- @param surface: 目标表面对象
 -- @param area: 区域定义 {left_top = {x, y}, right_bottom = {x, y}}
 -- @param resource_name: 资源类型名称（如 "iron-ore", "copper-ore", "coal", "stone", "uranium-ore", "crude-oil"）
--- @param density: 资源密度（可选，默认为每个tile放置的资源数量的基础值）
+-- @param amount: 资源数量
 -- @return boolean: 成功返回true，失败返回false
-local function generate_resources_in_area(surface, area, resource_name, density)
-    -- 生成资源位置列表
-    for x = area.left_top.x, area.right_bottom.x - 1 do
-        for y = area.left_top.y, area.right_bottom.y - 1 do
-            -- 创建资源实体
-            surface.create_entity {
-                name = resource_name,
-                position = { x, y },
-                amount = density
-            }
+local function generate_resources_in_area(surface, area, resource_name, amount)
+    if fluid_resources[resource_name] then
+        -- 流体资源 - 在中心点 create_entity
+        local center_x = area.left_top.x + math.floor((area.right_bottom.x - area.left_top.x) / 2)
+        local center_y = area.left_top.y + math.floor((area.right_bottom.y - area.left_top.y) / 2)
+
+        local entity = surface.create_entity {
+            name = resource_name,
+            position = { center_x, center_y },
+            amount = amount
+        }
+    else
+        for x = area.left_top.x, area.right_bottom.x - 1 do
+            for y = area.left_top.y, area.right_bottom.y - 1 do
+                -- 创建资源实体
+                surface.create_entity {
+                    name = resource_name,
+                    position = { x, y },
+                    amount = amount
+                }
+            end
         end
     end
 
     return true
+end
+
+--------------------------------------------------------------------------------------
+-- 在指定 surface 指定区域内生成 tile
+-- @param surface: 目标表面对象
+-- @param area: 区域定义 {left_top = {x, y}, right_bottom = {x, y}}
+-- @param tile_name: tile 名称（如 "iron-ore", "copper-ore", "coal", "stone", "uranium-ore", "crude-oil"）
+-- @return boolean: 成功返回true，失败返回false
+local function generate_tile_in_area(surface, area, tile_name)
+    local tiles = {}
+    for x = area.left_top.x, area.right_bottom.x - 1 do
+        for y = area.left_top.y, area.right_bottom.y - 1 do
+            table.insert(tiles, { name = tile_name, position = { x, y } })
+        end
+    end
+    if #tiles > 0 then
+        surface.set_tiles(tiles)
+    end
+
+    return #tiles
+end
+
+--------------------------------------------------------------------------------------
+-- 处理资源列表，统一转换为表格式
+local function preprocess_resources_table(resource_list, amount)
+    local resources = {}
+    if type(resource_list) == "string" then
+        -- 单个资源字符串
+        resources = { { name = resource_list, amount = amount } }
+    elseif type(resource_list) == "table" then
+        -- 资源列表
+        for i, resource in ipairs(resource_list) do
+            if type(resource) == "string" then
+                -- 资源名称字符串
+                table.insert(resources, { name = resource, amount = amount })
+            elseif type(resource) == "table" and resource.name then
+                -- 资源配置对象
+                table.insert(resources, {
+                    name = resource.name,
+                    amount = resource.amount or amount
+                })
+            end
+        end
+    else
+        return false
+    end
+
+    return resources
+end
+
+-- 按指定规律生成资源区域
+-- @param surface: 目标表面对象
+-- @param start_position: 起始位置 {x, y}
+-- @param direction: 排列方向 ("horizontal" 水平 或 "vertical" 垂直)
+-- @param area_size: 单个资源区域大小 {width, height}
+-- @param spacing: 区域间隔距离
+-- @param resource_list: 资源列表，可以是字符串（单个资源）或表（多个资源配置）
+--   - 字符串形式: "iron-ore"
+--   - 表形式: {
+--       {name = "iron-ore", amount = 5000},
+--       {name = "copper-ore", amount = 3000},
+--       ...
+--     }
+-- @param amount: 默认资源数量（当resource_list为字符串或资源项未指定amount时使用）
+-- @return boolean: 成功返回true，失败返回false
+local function generate_resources_pattern(surface, start_position, direction, area_size, spacing, resource_list,
+                                          amount)
+    local resources = preprocess_resources_table(resource_list, amount)
+    if not resources or #resources == 0 then
+        return false
+    end
+
+    local success_count = 0
+
+    for i = 1, #resources do
+        -- 循环使用资源列表中的资源
+        local resource_index = ((i - 1) % #resources) + 1
+        local current_resource = resources[resource_index]
+
+        -- 计算当前区域的位置
+        local current_x = start_position.x
+        local current_y = start_position.y
+
+        if direction == "horizontal" then
+            current_x = current_x + (i - 1) * (area_size.width + spacing)
+        else -- vertical
+            current_y = current_y + (i - 1) * (area_size.height + spacing)
+        end
+
+        -- 构建区域定义
+        local area = {
+            left_top = { x = current_x, y = current_y },
+            right_bottom = { x = current_x + area_size.width, y = current_y + area_size.height }
+        }
+
+        -- 根据资源类型选择不同的生成方式
+        if tile_resources[current_resource.name] then
+            -- 地块类型资源 - 使用set_tiles
+            generate_tile_in_area(surface, area, current_resource.name)
+            success_count = success_count + 1
+        elseif fluid_resources[current_resource.name] or normal_resources[current_resource.name] then
+            -- 流体资源或普通资源 - 使用create_entity
+            if generate_resources_in_area(surface, area, current_resource.name, current_resource.amount) then
+                success_count = success_count + 1
+            end
+        else
+            return false
+        end
+    end
+
+    return success_count == #resources
 end
 
 --------------------------------------------------------------------------------------
@@ -36,14 +186,14 @@ end
 -- @param x1, y1: 左上角坐标
 -- @param x2, y2: 右下角坐标
 -- @param resource_name: 资源类型名称
--- @param density: 资源密度
-local function generate_resources_by_coordinates(surface, x1, y1, x2, y2, resource_name, density)
+-- @param amount: 资源数量
+local function generate_resources_by_coordinates(surface, x1, y1, x2, y2, resource_name, amount)
     local area = {
         left_top = { x = math.min(x1, x2), y = math.min(y1, y2) },
         right_bottom = { x = math.max(x1, x2), y = math.max(y1, y2) }
     }
 
-    return generate_resources_in_area(surface, area, resource_name, density)
+    return generate_resources_in_area(surface, area, resource_name, amount)
 end
 
 --------------------------------------------------------------------------------------
@@ -355,171 +505,9 @@ local function generate_resource_planet(surface)
 end
 
 --------------------------------------------------------------------------------------
--- 按指定规律生成资源区域
--- @param surface: 目标表面对象
--- @param start_position: 起始位置 {x, y}
--- @param direction: 排列方向 ("horizontal" 水平 或 "vertical" 垂直)
--- @param area_size: 单个资源区域大小 {width, height}
--- @param spacing: 区域间隔距离
--- @param resource_list: 资源列表，可以是字符串（单个资源）或表（多个资源配置）
---   - 字符串形式: "iron-ore"
---   - 表形式: {
---       {name = "iron-ore", amount = 5000, density = 1024},
---       {name = "copper-ore", amount = 3000, density = 1024},
---       ...
---     }
--- @param default_amount: 默认资源数量（当resource_list为字符串或资源项未指定amount时使用）
--- @param default_density: 默认资源密度（可选，默认1024）
--- @return boolean: 成功返回true，失败返回false
-local function generate_resources_pattern(surface, start_position, direction, area_size, spacing, resource_list,
-                                          default_amount, default_density)
-    if not surface or not surface.valid then
-        return false
-    end
-
-    if not start_position or not start_position.x or not start_position.y then
-        return false
-    end
-
-    if not direction or (direction ~= "horizontal" and direction ~= "vertical") then
-        return false
-    end
-
-    if not area_size or not area_size.width or not area_size.height or area_size.width <= 0 or area_size.height <= 0 then
-        return false
-    end
-
-    if not spacing or spacing < 0 then
-        return false
-    end
-
-    if not resource_list then
-        return false
-    end
-
-    default_amount = default_amount or 1024
-    default_density = default_density or 1024
-
-    -- 处理资源列表，统一转换为表格式
-    local resources = {}
-    -- 资源区域数量
-    local count = 1
-    if type(resource_list) == "string" then
-        -- 单个资源字符串
-        resources = { { name = resource_list, amount = default_amount, density = default_density } }
-        count = 1
-    elseif type(resource_list) == "table" then
-        -- 资源列表
-        for i, resource in ipairs(resource_list) do
-            if type(resource) == "string" then
-                -- 资源名称字符串
-                table.insert(resources, { name = resource, amount = default_amount, density = default_density })
-            elseif type(resource) == "table" and resource.name then
-                -- 资源配置对象
-                table.insert(resources, {
-                    name = resource.name,
-                    amount = resource.amount or default_amount,
-                    density = resource.density or default_density
-                })
-            end
-        end
-        count = #resources
-    else
-        return false
-    end
-
-    if #resources == 0 then
-        return false
-    end
-
-    -- 定义地块类型的资源（需要使用set_tiles）
-    local tile_resources = {
-        ["water"] = true,
-        ["lava"] = true,
-        ["oil-ocean-shallow"] = true,
-        ["gleba-deep-lake"] = true,
-        ["ammoniacal-ocean"] = true,
-        ["overgrowth-jellynut-soil"] = true,
-        ["overgrowth-yumako-soil"] = true
-    }
-
-    -- 定义流体资源（需要在中心点create_entity）
-    local fluid_resources = {
-        ["crude-oil"] = true,
-        ["sulfuric-acid-geyser"] = true,
-        ["lithium-brine"] = true,
-        ["fluorine-vent"] = true
-    }
-
-    local success_count = 0
-
-    for i = 1, count do
-        -- 循环使用资源列表中的资源
-        local resource_index = ((i - 1) % #resources) + 1
-        local current_resource = resources[resource_index]
-
-        -- 计算当前区域的位置
-        local current_x = start_position.x
-        local current_y = start_position.y
-
-        if direction == "horizontal" then
-            current_x = current_x + (i - 1) * (area_size.width + spacing)
-        else -- vertical
-            current_y = current_y + (i - 1) * (area_size.height + spacing)
-        end
-
-        -- 构建区域定义
-        local area = {
-            left_top = { x = current_x, y = current_y },
-            right_bottom = { x = current_x + area_size.width, y = current_y + area_size.height }
-        }
-
-        -- 强制生成该区域的chunk
-        chunk_utils.force_generate_chunks(surface, area)
-
-        -- 根据资源类型选择不同的生成方式
-        if tile_resources[current_resource.name] then
-            -- 地块类型资源 - 使用set_tiles
-            local tiles = {}
-            for x = current_x, current_x + area_size.width - 1 do
-                for y = current_y, current_y + area_size.height - 1 do
-                    table.insert(tiles, { name = current_resource.name, position = { x, y } })
-                end
-            end
-            if #tiles > 0 then
-                surface.set_tiles(tiles)
-                success_count = success_count + 1
-            end
-        elseif fluid_resources[current_resource.name] then
-            -- 流体资源 - 在中心点create_entity
-            local center_x = current_x + math.floor(area_size.width / 2)
-            local center_y = current_y + math.floor(area_size.height / 2)
-
-            local entity = surface.create_entity {
-                name = current_resource.name,
-                position = { center_x, center_y },
-                amount = current_resource.amount * current_resource.density
-            }
-
-            if entity and entity.valid then
-                success_count = success_count + 1
-            end
-        else
-            -- 普通矿物资源 - 使用现有的区域生成函数
-            if generate_resources_in_area(surface, area, current_resource.name, current_resource.amount, current_resource.density) then
-                success_count = success_count + 1
-            end
-        end
-    end
-
-    return success_count == count
-end
-
---------------------------------------------------------------------------------------
 -- 导出函数供其他文件使用
 return {
-    generate_resource_planet = generate_resource_planet,
-    generate_resources_pattern = generate_resources_pattern
+    generate_resource_planet = generate_resource_planet
 }
 
 -- 使用示例:
