@@ -202,95 +202,22 @@ end
 local function generate_resource_nauvis(amount)
     local surface = game.surfaces.nauvis
 
-    -- 生成铜矿区域1 (X: -176 to -144)
-    generate_resources_by_coordinates(
-        surface,
-        -176, -160, -144, -96,
+    local resources = {
         "copper-ore",
-        amount
-    )
-
-    -- 生成铁矿区域1 (X: -144 to -112)
-    generate_resources_by_coordinates(
-        surface,
-        -144, -160, -112, -96,
         "iron-ore",
-        amount
-    )
-
-    -- 生成铜矿区域2 (X: -112 to -80)
-    generate_resources_by_coordinates(
-        surface,
-        -112, -160, -80, -96,
         "copper-ore",
-        amount
-    )
-
-    -- 生成铁矿区域2 (X: -80 to -48)
-    generate_resources_by_coordinates(
-        surface,
-        -80, -160, -48, -96,
         "iron-ore",
-        amount
-    )
-
-    -- 生成铁矿区域3 (X: -48 to -16)
-    generate_resources_by_coordinates(
-        surface,
-        -48, -160, -16, -96,
         "iron-ore",
-        amount
-    )
-
-    -- 生成铁矿区域4 (X: -16 to 16)
-    generate_resources_by_coordinates(
-        surface,
-        -16, -160, 16, -96,
         "iron-ore",
-        amount
-    )
-
-    -- 生成石头区域 (X: 16 to 48)
-    generate_resources_by_coordinates(
-        surface,
-        16, -160, 48, -96,
         "stone",
-        amount
-    )
-
-    -- 生成铀矿区域 (X: 48 to 80)
-    generate_resources_by_coordinates(
-        surface,
-        48, -160, 80, -96,
         "uranium-ore",
-        amount
-    )
-
-    -- 预留区域-石油 (X: 80 to 112)
-    -- 在指定区域生成石油
-    surface.create_entity {
-        name = "crude-oil",
-        position = { 96, -128 },
-        amount = amount * 1024 * 1024
-    }
-
-    -- 预留区域-水 (X: 112 to 144)
-    -- 在指定区域生成水
-    for x = 112, 143 do
-        for y = -160, -97 do
-            surface.set_tiles({ { name = "water", position = { x, y } } })
-        end
-    end
-
-    -- 生成煤炭区域 (X: 144 to 176)
-    generate_resources_by_coordinates(
-        surface,
-        144, -160, 176, -96,
+        { "crude-oil", amount * 1024 * 1024 },
+        "water",
         "coal",
-        amount
-    )
-
-    return true
+    }
+    return generate_resources_pattern(surface, { x = -176, y = -160 }, "horizontal",
+        { width = 32, height = 64 }, 0,
+        resources, amount)
 end
 
 --------------------------------------------------------------------------------------
@@ -298,47 +225,16 @@ end
 -- 适合火山星球的资源配置
 local function generate_resource_vulcanus(amount)
     local surface = game.surfaces.vulcanus
-
-    -- 生成煤炭区域 (X: -80 to -48)
-    generate_resources_by_coordinates(
-        surface,
-        -80, -160, -48, -96,
+    local resources = {
         "coal",
-        amount
-    )
-
-    -- 生成方解石区域 (X: -48 to -16)
-    generate_resources_by_coordinates(
-        surface,
-        -48, -160, -16, -96,
         "calcite",
-        amount
-    )
-
-    -- 预留区域-硫酸 (X: -16 to 16)
-    -- 在指定区域生成硫酸
-    surface.create_entity {
-        name = "sulfuric-acid-geyser",
-        position = { 0, -128 },
-        amount = amount * 1024 * 1024
-    }
-
-    -- 生成钨矿区域 (X: 16 to 48)
-    generate_resources_by_coordinates(
-        surface,
-        16, -160, 48, -96,
+        { "sulfuric-acid-geyser", amount * 1024 * 1024 },
         "tungsten-ore",
-        amount
-    )
-
-    -- 生成熔岩区域 (X: 48 to 80)
-    for x = 48, 80 do
-        for y = -160, -97 do
-            surface.set_tiles({ { name = "lava", position = { x, y } } })
-        end
-    end
-
-    return true
+        "lava",
+    }
+    return generate_resources_pattern(surface, { x = -80, y = -160 }, "horizontal",
+        { width = 32, height = 64 }, 0,
+        resources, amount)
 end
 
 --------------------------------------------------------------------------------------
@@ -347,43 +243,16 @@ end
 local function generate_resource_gleba(amount)
     local surface = game.surfaces.gleba
 
-    -- 生成石头区域 (X: -80 to -48)
-    generate_resources_by_coordinates(
-        surface,
-        -80, -160, -48, -96,
+    local resources = {
         "stone",
-        amount
-    )
-
-    -- 生成果冻果沃土 (X: -48 to -16)
-    for x = -48, -16 do
-        for y = -160, -97 do
-            surface.set_tiles({ { name = "overgrowth-jellynut-soil", position = { x, y } } })
-        end
-    end
-
-    -- 生成玉玛果沃土 (X: -16 to 16)
-    for x = -16, 16 do
-        for y = -160, -97 do
-            surface.set_tiles({ { name = "overgrowth-yumako-soil", position = { x, y } } })
-        end
-    end
-
-    -- 生成沼泽水域 (X: 16 to 48)
-    for x = 16, 48 do
-        for y = -160, -97 do
-            surface.set_tiles({ { name = "gleba-deep-lake", position = { x, y } } })
-        end
-    end
-
-    -- 生成沼泽水域 (X: 48 to 80)
-    for x = 48, 80 do
-        for y = -160, -97 do
-            surface.set_tiles({ { name = "gleba-deep-lake", position = { x, y } } })
-        end
-    end
-
-    return true
+        "overgrowth-jellynut-soil",
+        "overgrowth-yumako-soil",
+        "gleba-deep-lake",
+        "gleba-deep-lake",
+    }
+    return generate_resources_pattern(surface, { x = -80, y = -160 }, "horizontal",
+        { width = 32, height = 64 }, 0,
+        resources, amount)
 end
 
 --------------------------------------------------------------------------------------
@@ -392,47 +261,16 @@ end
 local function generate_resource_fulgora(amount)
     local surface = game.surfaces.fulgora
 
-    -- 生成废料回收区域 (X: -80 to -48)
-    generate_resources_by_coordinates(
-        surface,
-        -80, -160, -48, -96,
+    local resources = {
         "scrap",
-        amount
-    )
-
-    -- 生成废料回收区域 (X: -48 to -16)
-    generate_resources_by_coordinates(
-        surface,
-        -48, -160, -16, -96,
         "scrap",
-        amount
-    )
-
-    -- 生成废料回收区域 (X: -16 to 16)
-    -- 在指定区域生成硫酸
-    generate_resources_by_coordinates(
-        surface,
-        -16, -160, 16, -96,
         "scrap",
-        amount
-    )
-
-    -- 生成废料回收区域 (X: -16 to 16)
-    generate_resources_by_coordinates(
-        surface,
-        -16, -160, 16, -96,
         "scrap",
-        amount
-    )
-
-    -- 生成油海 (X: 16 to 48)
-    for x = 16, 48 do
-        for y = -160, -97 do
-            surface.set_tiles({ { name = "oil-ocean-shallow", position = { x, y } } })
-        end
-    end
-
-    return true
+        "oil-ocean-shallow",
+    }
+    return generate_resources_pattern(surface, { x = -80, y = -160 }, "horizontal",
+        { width = 32, height = 64 }, 0,
+        resources, amount)
 end
 
 --------------------------------------------------------------------------------------
@@ -441,45 +279,16 @@ end
 local function generate_resource_aquilo(amount)
     local surface = game.surfaces.aquilo
 
-    -- 预留区域-lithium-brine (X: 80 to -48)
-    -- 在指定区域生成lithium-brine
-    surface.create_entity {
-        name = "lithium-brine",
-        position = { -64, -128 },
-        amount = amount * 1024 * 1024
+    local resources = {
+        { "lithium-brine", amount * 1024 * 1024 },
+        { "fluorine-vent", amount * 1024 * 1024 },
+        { "crude-oil",     amount * 1024 * 1024 },
+        "ammoniacal-ocean",
+        "ammoniacal-ocean"
     }
-
-    -- 预留区域-fluorine-vent (X: -48 to -16)
-    -- 在指定区域生成fluorine-vent
-    surface.create_entity {
-        name = "fluorine-vent",
-        position = { -32, -128 },
-        amount = amount * 1024 * 1024
-    }
-
-    -- 预留区域-crude-oil (X: -16 to 16)
-    -- 在指定区域生成crude-oil
-    surface.create_entity {
-        name = "crude-oil",
-        position = { 0, -128 },
-        amount = amount * 1024 * 1024
-    }
-
-    -- 生成氨海 (X: 16 to 48)
-    for x = 16, 48 do
-        for y = -160, -97 do
-            surface.set_tiles({ { name = "ammoniacal-ocean", position = { x, y } } })
-        end
-    end
-
-    -- 生成氨海 (X: 48 to 80)
-    for x = 48, 80 do
-        for y = -160, -97 do
-            surface.set_tiles({ { name = "ammoniacal-ocean", position = { x, y } } })
-        end
-    end
-
-    return true
+    return generate_resources_pattern(surface, { x = -80, y = -160 }, "horizontal",
+        { width = 32, height = 64 }, 0,
+        resources, amount)
 end
 
 --------------------------------------------------------------------------------------
@@ -489,16 +298,18 @@ local function generate_resource_planet(surface)
         return false
     end
 
+    local amount = 1024
+
     if surface.name == "nauvis" then
-        generate_resource_nauvis()
+        generate_resource_nauvis(amount)
     elseif surface.name == "vulcanus" then
-        generate_resource_vulcanus()
+        generate_resource_vulcanus(amount)
     elseif surface.name == "gleba" then
-        generate_resource_gleba()
+        generate_resource_gleba(amount)
     elseif surface.name == "fulgora" then
-        generate_resource_fulgora()
+        generate_resource_fulgora(amount)
     elseif surface.name == "aquilo" then
-        generate_resource_aquilo()
+        generate_resource_aquilo(amount)
     end
 
     return true
@@ -509,27 +320,3 @@ end
 return {
     generate_resource_planet = generate_resource_planet
 }
-
--- 使用示例:
--- 1. 单个资源 - 水平排列生成3个32x32的铁矿区域，间隔16格距离
--- generate_resources_pattern(game.surfaces.nauvis, {x=0, y=0}, "horizontal", {width=32, height=32}, 16,
--- {"iron-ore", "iron-ore", "iron-ore"}, 5000)
---
--- 2. 多个资源（字符串列表） - 按顺序循环生成不同资源
--- generate_resources_pattern(game.surfaces.nauvis, {x=0, y=0}, "horizontal", {width=32, height=32}, 16,
---   {"iron-ore", "copper-ore", "coal", "stone"}, 5000)  -- 按iron-ore, copper-ore, coal, stone的顺序循环
---
--- 3. 多个资源（详细配置） - 每种资源可以有不同的数量和密度
--- generate_resources_pattern(game.surfaces.nauvis, {x=0, y=0}, "vertical", {width=64, height=64}, 20, {
---   {name = "iron-ore", amount = 10000, density = 2048},
---   {name = "copper-ore", amount = 8000, density = 1536},
---   {name = "water", amount = 1, density = 1},  -- 地块类型，amount和density会被忽略
---   {name = "crude-oil", amount = 50000, density = 1024}  -- 流体资源
--- }, nil)
---
--- 4. 混合类型资源 - 包含矿物、地块和流体
--- generate_resources_pattern(game.surfaces.nauvis, {x=100, y=100}, "horizontal", {width=48, height=48}, 10, {
---   "iron-ore",  -- 使用默认配置
---   {name = "water", amount = 1},  -- 地块类型
---   {name = "crude-oil", amount = 100000, density = 2048}  -- 流体资源
--- }, 6000)  -- 默认数量6000

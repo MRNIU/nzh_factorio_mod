@@ -11,11 +11,6 @@ local legendary_items = require("legendary_items")
 --------------------------------------------------------------------------------------
 -- 在游戏初始化时清空中心区域
 local function OnInit()
-    -- 清空中心区域
-    area_cleaner.clear_center_area(game.surfaces.nauvis)
-
-    generate_resources.generate_resource_nauvis()
-    
     -- 初始化全局变量
     global.equipped_players = global.equipped_players or {}
     global.equipment_setup_pending = global.equipment_setup_pending or {}
