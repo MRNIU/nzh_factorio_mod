@@ -68,7 +68,9 @@ local function clear_area_to_land(surface, area)
         if cliff.valid then
             cliff.destroy()
         end
-    end -- 根据不同星球替换地形
+    end 
+
+	-- 根据不同星球替换地形
     local tiles = {}
     local left_top = area.left_top
     local right_bottom = area.right_bottom
@@ -98,35 +100,6 @@ local function clear_area_to_land(surface, area)
 end
 
 --------------------------------------------------------------------------------------
--- 清空玩家周围指定大小的区域
--- @param player_index: 玩家索引
--- @param size: 区域大小（可选，默认100）
-local function clear_area_around_player(player_index, size)
-    local player = game.get_player(player_index)
-    if not player or not player.valid then
-        return false
-    end
-
-    size = size or 100
-    local half_size = size / 2
-    local position = player.position
-
-    local area = {
-        left_top = { x = position.x - half_size, y = position.y - half_size },
-        right_bottom = { x = position.x + half_size, y = position.y + half_size }
-    }
-
-    local success = clear_area_to_land(player.surface, area)
-    if success then
-        player.print("已清空周围 " .. size .. "x" .. size .. " 区域并替换为土地")
-    else
-        player.print("清空区域失败")
-    end
-
-    return success
-end
-
---------------------------------------------------------------------------------------
 -- 清空指定坐标区域
 -- @param surface: 目标表面
 -- @param x1, y1: 左上角坐标
@@ -141,7 +114,8 @@ local function clear_area_by_coordinates(surface, x1, y1, x2, y2)
 end
 
 --------------------------------------------------------------------------------------
--- 清空以(0,0)为中心、半径 224 的正方形区域
+-- 清空以(0,0)为中心、半径 224 的正方形区域，这是游戏开始时默认生成的 chunk 大小
+-- @param surface: 目标表面
 local function clear_center_area(surface)
     local radius = 224
 
@@ -163,8 +137,6 @@ end
 --------------------------------------------------------------------------------------
 -- 导出函数供其他文件使用
 return {
-    clear_area_to_land = clear_area_to_land,
-    clear_area_around_player = clear_area_around_player,
     clear_area_by_coordinates = clear_area_by_coordinates,
     clear_center_area = clear_center_area
 }
