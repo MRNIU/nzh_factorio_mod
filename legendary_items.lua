@@ -18,36 +18,76 @@ local legendary_equipment = {
 }
 
 --------------------------------------------------------------------------------------
--- 给玩家添加传奇机甲装甲并配置装备
-local function give_legendary_mech_armor(player)
-    -- 创建传奇品质的机甲装甲
-    local mech_armor = {
-        name = "mech-armor",
-        count = 1,
-        quality = "legendary"
-    }
+-- 配置传奇机甲
+local function init_legendary_mech_armor(mech_armor)
     local grid = mech_armor.grid
 
-    -- 添加装备到装备网格
-    for _, equipment_data in pairs(legendary_equipment) do
-        for i = 1, equipment_data.count do
-            local position = grid.find_empty_stack(equipment_data.name)
-            if position then
-                grid.put {
-                    name = equipment_data.name,
-                    position = position,
-                    quality = equipment_data.quality
-                }
-            end
+    -- 手动指定装备位置配置
+    local equipment_positions = {
+        -- toolbelt-equipment 在最上方一行 (y=0)
+        { name = "toolbelt-equipment",       positions = { { 0, 0 }, { 3, 0 }, { 6, 0 }, { 9, 0 }, { 12, 0 } } },
+
+        -- fusion-reactor-equipment 在左上角 (4个，2x2排列)
+        { name = "fusion-reactor-equipment", positions = { { 0, 1 }, { 5, 1 }, { 0, 5 }, { 5, 5 } } },
+
+        -- exoskeleton-equipment 在左下角 (14个，从左下角开始向右向上填充)
+        {
+            name = "exoskeleton-equipment",
+            positions = {
+                { 0, 7 }, { 1, 7 }, { 2, 7 }, { 3, 7 }, { 4, 7 }, { 5, 7 }, { 6, 7 }, -- 最下方一行
+                { 0, 6 }, { 1, 6 }, { 2, 6 }, { 3, 6 }, { 4, 6 }, { 5, 6 }, { 6, 6 }  -- 倒数第二行
+            }
+        },
+
+        -- battery-mk3-equipment 在最右边一列 (7个，从上到下)
+        { name = "battery-mk3-equipment",            positions = { { 9, 0 }, { 9, 1 }, { 9, 2 }, { 9, 3 }, { 9, 4 }, { 9, 5 }, { 9, 6 } } },
+
+        -- solar-panel-equipment 在最右边一列
+        { name = "solar-panel-equipment",            positions = { { 9, 7 } } },
+
+        -- belt-immunity-equipment 在最右边一列 (如果还有空间的话)
+        { name = "belt-immunity-equipment",          positions = { { 8, 7 } } },
+
+        -- night-vision-equipment 按列放入
+        { name = "night-vision-equipment",           positions = { { 2, 1 } } },
+
+        -- energy-shield-mk2-equipment 按列放入 (3个)
+        { name = "energy-shield-mk2-equipment",      positions = { { 3, 1 }, { 4, 1 }, { 5, 1 } } },
+
+        -- personal-laser-defense-equipment 按列放入 (4个)
+        { name = "personal-laser-defense-equipment", positions = { { 6, 1 }, { 7, 1 }, { 8, 1 }, { 6, 2 } } },
+
+        -- personal-roboport-mk2-equipment 按列放入 (4个)
+        { name = "personal-roboport-mk2-equipment",  positions = { { 7, 2 }, { 8, 2 }, { 6, 3 }, { 7, 3 } } }
+    }
+
+    -- 按指定位置添加装备
+    for _, equipment_config in pairs(equipment_positions) do
+        for i, position in ipairs(equipment_config.positions) do
+            grid.put {
+                name = equipment_config.name,
+                position = position,
+                quality = "legendary"
+            }
         end
     end
+end
 
+--------------------------------------------------------------------------------------
+--- 给玩家添加传奇机甲装甲
+local function give_legendary_mech_armor(player)
     -- 检查玩家装备栏是否有空位
     local armor_inventory = player.get_inventory(defines.inventory.character_armor)
     -- 先移除当前装甲
     armor_inventory.clear()
     -- 添加传奇机甲装甲
-    armor_inventory.insert(mech_armor)
+    armor_inventory.insert({
+        name = "mech-armor",
+        count = 1,
+        quality = "legendary"
+    })
+    -- 初始化传奇机甲装甲
+    init_legendary_mech_armor(armor_inventory[1])
 end
 
 --------------------------------------------------------------------------------------
@@ -97,7 +137,7 @@ end
 
 --------------------------------------------------------------------------------------
 -- 预设的传奇物品包
-legendary_items.preset_legendary_items = {
+local preset_legendary_items = {
     -- 基础建设包
     construction = {
         { name = "construction-robot",    count = 100 },
@@ -140,16 +180,16 @@ legendary_items.preset_legendary_items = {
 --------------------------------------------------------------------------------------
 -- 给玩家添加预设传奇物品包
 local function give_preset_legendary_items(player_name, preset_name)
-    if not legendary_items.preset_legendary_items[preset_name] then
+    if not preset_legendary_items[preset_name] then
         game.print("预设物品包 " .. preset_name .. " 不存在")
         return
     end
 
-    give_legendary_items(player_name, legendary_items.preset_legendary_items[preset_name])
+    give_legendary_items(player_name, preset_legendary_items[preset_name])
 end
 
 return {
-    give_legendary_mech_armor = give_legendary_mech_armor,
     give_legendary_items = give_legendary_items,
-    give_preset_legendary_items = give_preset_legendary_items
+    give_preset_legendary_items = give_preset_legendary_items,
+    preset_legendary_items = preset_legendary_items
 }
