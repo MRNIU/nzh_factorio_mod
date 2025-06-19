@@ -137,6 +137,5 @@ end
 --------------------------------------------------------------------------------------
 -- 导出函数供其他文件使用
 return {
-    clear_area_by_coordinates = clear_area_by_coordinates,
     clear_center_area = clear_center_area
 }
