@@ -191,19 +191,33 @@ local preset_legendary_items = {
     { name = "submachine-gun",          count = 3 },
     { name = "uranium-rounds-magazine", count = 1600 },
     { name = "substation",              count = 40 },
-    { name = "substation",              count = 50,  quality = "normal" },
     { name = "roboport",                count = 10 },
     { name = "storage-chest",           count = 80 },
     { name = "solar-panel",             count = 1960 },
     { name = "accumulator",             count = 1740 },
     { name = "electric-furnace",        count = 50 },
-    { name = "big-mining-drill",        count = 20 },
+    { name = "big-mining-drill",        count = 40 },
     { name = "offshore-pump",           count = 20 },
     { name = "pumpjack",                count = 20 },
     { name = "assembling-machine-3",    count = 50 },
     { name = "pump",                    count = 50 },
-    { name = "uranium-235",             count = 400, quality = "normal" },
-    { name = "steel-chest",             count = 50,  quality = "normal" },
+
+    { name = "substation",              count = 50,   quality = "normal" },
+    { name = "big-electric-pole",       count = 50,   quality = "normal" },
+    { name = "uranium-235",             count = 400,  quality = "normal" },
+    { name = "steel-chest",             count = 50,   quality = "normal" },
+
+    { name = "transport-belt",          count = 2000, quality = "normal" },
+    { name = "underground-belt",        count = 200,  quality = "normal" },
+    { name = "splitter",                count = 100,  quality = "normal" },
+
+    { name = "inserter",                count = 400,  quality = "normal" },
+    { name = "long-handed-inserter",    count = 50,   quality = "normal" },
+    { name = "fast-inserter",           count = 100,  quality = "normal" },
+
+    { name = "assembling-machine-3",    count = 50,   quality = "normal" },
+    { name = "small-electric-pole",     count = 150,  quality = "normal" },
+    { name = "steel-furnace",           count = 200,  quality = "normal" }
 }
 
 --------------------------------------------------------------------------------------
