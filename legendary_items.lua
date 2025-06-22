@@ -154,6 +154,86 @@ local function give_legendary_mech_armor(player)
 end
 
 --------------------------------------------------------------------------------------
+-- 在玩家附近放置装有物品的钢箱
+local function place_steel_chest_with_items(player, items)
+    local surface = player.surface
+    local position = player.position
+    local chest_counter = 1
+    local remaining_items = {}
+
+    -- 将所有物品复制到待处理列表
+    for _, item_data in pairs(items) do
+        table.insert(remaining_items, {
+            name = item_data.name or item_data[1],
+            count = item_data.count or item_data[2] or 1,
+            quality = item_data.quality or "legendary"
+        })
+    end
+
+    -- 处理所有物品，创建足够的钢箱
+    while #remaining_items > 0 do
+        -- 寻找钢箱放置位置
+        local chest_position = surface.find_non_colliding_position("steel-chest", position, 15, 1)
+
+        -- 创建钢箱
+        local chest = surface.create_entity({
+            name = "steel-chest",
+            position = chest_position,
+            quality = "normal",
+            force = "neutral"
+        })
+
+        -- 获取钢箱的库存
+        local chest_inventory = chest.get_inventory(defines.inventory.chest)
+        if not chest_inventory then
+            chest.destroy()
+            player.print("无法访问第" .. chest_counter .. "个钢箱库存")
+            break
+        end
+
+        -- 尝试向当前钢箱中添加物品
+        local items_for_this_chest = {}
+        local items_still_remaining = {}
+
+        for _, item_data in pairs(remaining_items) do
+            if prototypes.item[item_data.name] then
+                local legendary_item = {
+                    name = item_data.name,
+                    count = item_data.count,
+                    quality = item_data.quality
+                }
+
+                -- 尝试插入物品
+                local inserted = chest_inventory.insert(legendary_item)
+
+                if inserted > 0 then
+                    -- 记录成功插入的物品
+                    table.insert(items_for_this_chest, inserted .. "x " .. item_data.quality .. " " .. item_data.name)
+                end
+
+                -- 如果没有完全插入，将剩余数量放回待处理列表
+                local remaining_count = item_data.count - inserted
+                if remaining_count > 0 then
+                    table.insert(items_still_remaining, {
+                        name = item_data.name,
+                        count = remaining_count,
+                        quality = item_data.quality
+                    })
+                end
+            end
+        end
+
+        -- 更新剩余物品列表
+        remaining_items = items_still_remaining
+
+        chest_counter = chest_counter + 1
+    end
+
+    -- 返回创建的钢箱列表
+    return true
+end
+
+--------------------------------------------------------------------------------------
 -- 给玩家背包添加传奇物品
 local function give_legendary_items(player, items)
     local main_inventory = player.get_inventory(defines.inventory.character_main)
@@ -190,7 +270,7 @@ local preset_legendary_items = {
     { name = "construction-robot",      count = 200 },
     { name = "submachine-gun",          count = 3 },
     { name = "uranium-rounds-magazine", count = 1600 },
-    { name = "substation",              count = 40 },
+    { name = "substation",              count = 72 },
     { name = "roboport",                count = 18 },
     { name = "storage-chest",           count = 144 },
     { name = "solar-panel",             count = 3528 },
@@ -208,13 +288,14 @@ local preset_legendary_items = {
     { name = "foundry",                 count = 100 },
     { name = "electromagnetic-plant",   count = 100 },
     { name = "biolab",                  count = 100 },
+    { name = "cryogenic-plant",                  count = 100 },
 
     { name = "beacon",                  count = 100 },
     { name = "speed-module-3",          count = 400 },
     { name = "efficiency-module-3",     count = 400 },
     { name = "productivity-module-3",   count = 400 },
 
-    { name = "substation",              count = 100,  quality = "normal" },
+    { name = "substation",              count = 200,  quality = "normal" },
     { name = "big-electric-pole",       count = 50,   quality = "normal" },
     { name = "uranium-235",             count = 400,  quality = "normal" },
     { name = "steel-chest",             count = 50,   quality = "normal" },
@@ -233,9 +314,9 @@ local preset_legendary_items = {
 }
 
 --------------------------------------------------------------------------------------
--- 给玩家添加预设传奇物品包
+-- 给玩家添加预设传奇物品包（放在钢箱里）
 local function give_preset_legendary_items(player)
-    give_legendary_items(player, preset_legendary_items)
+    return place_steel_chest_with_items(player, preset_legendary_items)
 end
 
 --------------------------------------------------------------------------------------
@@ -245,11 +326,13 @@ local function add_start_items(player)
         return
     end
 
+    -- 给玩家传奇机甲装甲（直接穿戴）
     give_legendary_mech_armor(player)
+
+    -- 将传奇物品包放在钢箱里
     give_preset_legendary_items(player)
 end
 
 return {
-    add_start_items = add_start_items,
-    give_preset_legendary_items = give_preset_legendary_items,
+    add_start_items = add_start_items
 }
