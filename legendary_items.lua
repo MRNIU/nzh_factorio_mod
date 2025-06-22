@@ -192,7 +192,7 @@ local preset_legendary_items = {
     { name = "uranium-rounds-magazine", count = 1600 },
     { name = "substation",              count = 40 },
     { name = "roboport",                count = 18 },
-    { name = "storage-chest",           count = 80 },
+    { name = "storage-chest",           count = 144 },
     { name = "solar-panel",             count = 3528 },
     { name = "accumulator",             count = 3132 },
     { name = "electric-furnace",        count = 50 },
