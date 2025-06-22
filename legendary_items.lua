@@ -200,9 +200,9 @@ local preset_legendary_items = {
     { name = "offshore-pump",           count = 20 },
     { name = "pumpjack",                count = 20 },
     { name = "pump",                    count = 50 },
-
-    bulk-inserter
-    stack-inserter
+    { name = "bulk-inserter",           count = 200 },
+    { name = "stack-inserter",          count = 200 },
+    { name = "long-handed-inserter",    count = 200 },
 
     { name = "assembling-machine-3",    count = 100 },
     { name = "foundry",                 count = 100 },
