@@ -207,6 +207,9 @@ local function generate_resource_nauvis(amount)
     local surface = game.surfaces.nauvis
 
     local resources = {
+        "calcite",
+        "copper-ore",
+        "iron-ore",
         "copper-ore",
         "iron-ore",
         "copper-ore",
@@ -215,11 +218,11 @@ local function generate_resource_nauvis(amount)
         "iron-ore",
         "stone",
         "uranium-ore",
-        { name = "crude-oil", amount = amount * 1024 * 1024 },
+        { name = "crude-oil", amount = amount * 1024 * 512 },
         "water",
         "coal",
     }
-    return generate_resources_pattern(surface, { x = -176, y = -160 }, "horizontal",
+    return generate_resources_pattern(surface, { x = -224, y = -224 }, "horizontal",
         { width = 32, height = 64 }, 0,
         resources, amount)
 end
@@ -232,11 +235,11 @@ local function generate_resource_vulcanus(amount)
     local resources = {
         "coal",
         "calcite",
-        { name = "sulfuric-acid-geyser", amount = amount * 1024 * 1024 },
+        { name = "sulfuric-acid-geyser", amount = amount * 1024 * 512 },
         "tungsten-ore",
         "lava",
     }
-    return generate_resources_pattern(surface, { x = -80, y = -160 }, "horizontal",
+    return generate_resources_pattern(surface, { x = -80, y = -224 }, "horizontal",
         { width = 32, height = 64 }, 0,
         resources, amount)
 end
@@ -254,7 +257,7 @@ local function generate_resource_gleba(amount)
         "gleba-deep-lake",
         "gleba-deep-lake",
     }
-    return generate_resources_pattern(surface, { x = -80, y = -160 }, "horizontal",
+    return generate_resources_pattern(surface, { x = -80, y = -224 }, "horizontal",
         { width = 32, height = 64 }, 0,
         resources, amount)
 end
@@ -272,7 +275,7 @@ local function generate_resource_fulgora(amount)
         "scrap",
         "oil-ocean-shallow",
     }
-    return generate_resources_pattern(surface, { x = -80, y = -160 }, "horizontal",
+    return generate_resources_pattern(surface, { x = -80, y = -224 }, "horizontal",
         { width = 32, height = 64 }, 0,
         resources, amount)
 end
@@ -284,13 +287,13 @@ local function generate_resource_aquilo(amount)
     local surface = game.surfaces.aquilo
 
     local resources = {
-        { name = "lithium-brine", amount = amount * 1024 * 1024 },
-        { name = "fluorine-vent", amount = amount * 1024 * 1024 },
-        { name = "crude-oil",     amount = amount * 1024 * 1024 },
+        { name = "lithium-brine", amount = amount * 1024 * 512 },
+        { name = "fluorine-vent", amount = amount * 1024 * 512 },
+        { name = "crude-oil",     amount = amount * 1024 * 512 },
         "ammoniacal-ocean",
         "ammoniacal-ocean"
     }
-    return generate_resources_pattern(surface, { x = -80, y = -160 }, "horizontal",
+    return generate_resources_pattern(surface, { x = -80, y = -224 }, "horizontal",
         { width = 32, height = 64 }, 0,
         resources, amount)
 end
@@ -302,7 +305,7 @@ local function generate_resource_planet(surface)
         return false
     end
 
-    local amount = 4096
+    local amount = 8192
 
     if surface.name == "nauvis" then
         generate_resource_nauvis(amount)

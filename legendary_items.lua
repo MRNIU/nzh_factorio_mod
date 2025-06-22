@@ -191,18 +191,30 @@ local preset_legendary_items = {
     { name = "submachine-gun",          count = 3 },
     { name = "uranium-rounds-magazine", count = 1600 },
     { name = "substation",              count = 40 },
-    { name = "roboport",                count = 10 },
+    { name = "roboport",                count = 18 },
     { name = "storage-chest",           count = 80 },
-    { name = "solar-panel",             count = 1960 },
-    { name = "accumulator",             count = 1740 },
+    { name = "solar-panel",             count = 3528 },
+    { name = "accumulator",             count = 3132 },
     { name = "electric-furnace",        count = 50 },
-    { name = "big-mining-drill",        count = 40 },
+    { name = "big-mining-drill",        count = 200 },
     { name = "offshore-pump",           count = 20 },
     { name = "pumpjack",                count = 20 },
-    { name = "assembling-machine-3",    count = 50 },
     { name = "pump",                    count = 50 },
 
-    { name = "substation",              count = 50,   quality = "normal" },
+    bulk-inserter
+    stack-inserter
+
+    { name = "assembling-machine-3",    count = 100 },
+    { name = "foundry",                 count = 100 },
+    { name = "electromagnetic-plant",   count = 100 },
+    { name = "biolab",                  count = 100 },
+
+    { name = "beacon",                  count = 100 },
+    { name = "speed-module-3",          count = 400 },
+    { name = "efficiency-module-3",     count = 400 },
+    { name = "productivity-module-3",   count = 400 },
+
+    { name = "substation",              count = 100,  quality = "normal" },
     { name = "big-electric-pole",       count = 50,   quality = "normal" },
     { name = "uranium-235",             count = 400,  quality = "normal" },
     { name = "steel-chest",             count = 50,   quality = "normal" },
