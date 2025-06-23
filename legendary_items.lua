@@ -288,7 +288,7 @@ local preset_legendary_items = {
     { name = "foundry",                 count = 100 },
     { name = "electromagnetic-plant",   count = 100 },
     { name = "biolab",                  count = 100 },
-    { name = "cryogenic-plant",                  count = 100 },
+    { name = "cryogenic-plant",         count = 100 },
 
     { name = "beacon",                  count = 100 },
     { name = "speed-module-3",          count = 400 },
