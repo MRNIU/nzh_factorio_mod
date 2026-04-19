@@ -1,80 +1,30 @@
 # nzh_factorio_mod
 
-Factorio's mod
+NZH's personal Factorio 2.0 meta-pack. One install, one toggle — enables the full NZH startup-experience bundle plus a curated list of community quality-of-life mods.
 
-异星工厂 Factorio 自用 mod
+> **Since 2.0.0 this mod contains no code.** It is a dependency container that auto-enables NZH's startup mods and, where available, a set of recommended community mods.
 
-整合个人日常使用的辅助性工具
+## Bundled startup mods (hard dependencies)
 
-## 支持的功能
+| Name | What it does |
+| --- | --- |
+| [LegendaryMechStart](https://github.com/MRNIU/factorio_LegendaryMechStart) | Legendary mech armor + full equipment grid + rich starting inventory |
+| [LegendaryShipStart](https://github.com/MRNIU/factorio_LegendaryShipStart) | Fleet of pre-built legendary space platforms around Nauvis |
+| [BestLanding](https://github.com/MRNIU/factorio_BestLanding) | Landing-area cleanup, planet-specific resources, legendary spidertron |
 
-- [ ] 火车自动上色，基于 Automatic Train Painter
-- [ ] 传送带反转，基于 Belt Reverser
-- [ ] 生产瓶颈分析 belt-reverserup_0.0.9
-- [ ] 死亡地点标记 DeathMarkers_0.4.0
-- [ ] 地图颜色改进 Enhanced_Map_Colors_1.5.5
-- [ ] 自动填充 Fill4Me-fixed_0.10.1，even-distribution_1.0.10
-- [ ] 视野与地图缩放 Kux-Zooming_2.2.8
-- [ ] 采矿规划 mining-patch-planner_1.4.3
-- [ ] 油井规划 WellPlanner_1.1.5
-- [ ] 穿墙 [Squeak Through](https://mods.factorio.com/mod/Squeak%20Through)
-- [x] 开局装备
+Enabling this pack automatically enables all three.
 
-|      名称      | 数量 |
-| :------------: | :--: |
-|    蜘蛛机甲    |  1   |
-|  蜘蛛机甲遥控  |  1   |
-|  能量装甲 MK2  |  1   |
-| 能量盾模块 MK2 |  20  |
-|   外骨骼模块   |  20  |
-|   聚变堆模块   |  20  |
-|  激光防御模块  |  20  |
-| 机器人指令模块 |  18  |
-|    夜视模块    |  1   |
-|    锚定模块    |  1   |
-| 机器人指令平台 |  14  |
-|   建设机器人   | 100  |
-|    太阳能板    | 720  |
-|     电池组     | 600  |
-|    小电线杆    |  50  |
-|    中电线杆    |  50  |
-|    大电线杆    |  50  |
-|     配电站     | 114  |
-|      雷达      |  50  |
+## Recommended community mods (optional)
 
-- [ ] 自适应移速 [adaptive_movement_speed](https://mods.factorio.com/mod/adaptive_movement_speed)
-- [ ] 地图模式操作
+Declared with `?` so they only influence load order; they are not forced onto users who don't already have them:
 
+`adaptive_movement_speed`, `autobuild`, `AutoDeconstruct`, `Automatic_Train_Painter`, `belt-reverserup`, `BottleneckLite`, `chinese`, `creative-mod`, `DeathMarkers`, `Enhanced_Map_Colors`, `even-distribution`, `EvoGUI`, `factoripedia`, `helmod`, `KitchsLessIntrusiveIcons`, `Kux-Zooming`, `liborio`, `MaxRateCalculator`, `mining-patch-planner`, `more-minimap-autohide-017`, `Orphan Finder`, `Robot_Battery_Research`, `SchallModulePlacement`, `Squeak Through`, `Tapeline`, `TheFatController`, `WellPlanner`.
 
+## Compatibility
 
-| 功能           | 目录                 | 参考                                                         |
-| -------------- | -------------------- | ------------------------------------------------------------ |
-| 夜视仪         | data-updates.lua     | [VilsClearNightvision](https://mods.factorio.com/mod/VilsClearNightvision) |
-| 操作距离       | long_reach           |                                                              |
-| 更小的模块装备 | data.lua             | [Tiny_Equipment](https://mods.factorio.com/mod/Tiny_Equipment) |
-| 无水管道泵     | data.lua             | [PumpAnywhere](https://mods.factorio.com/mod/PumpAnywhere)   |
-| 调整游戏速度   | time                 | [TimeTools](https://mods.factorio.com/mod/TimeTools)         |
-| 手搓一切       | data-final-fixes.lua | [hand_craft_everything](https://mods.factorio.com/mod/hand_craft_everything) |
-| 初始物品       | startup              |                                                              |
-|                |                      |                                                              |
-|                |                      |                                                              |
-|                |                      |                                                              |
+- Factorio 2.0.55 or newer.
+- Requires `base`, `space-age`, `quality`.
 
+## License
 
-
-## 模组逻辑
-
-![control-stage](./.README.assets/control-stage.png)
-
-需要实现的接口
-
-| 函数                                                         | 参数 | 返回值 |                             描述                             |
-| ------------------------------------------------------------ | ---- | ------ | :----------------------------------------------------------: |
-| [on_init](https://lua-api.factorio.com/latest/LuaBootstrap.html#LuaBootstrap.on_init)(handler) |      |        |     Register a function to be run on mod initialization.     |
-| [on_load](https://lua-api.factorio.com/latest/LuaBootstrap.html#LuaBootstrap.on_load)(handler) |      |        |         Register a function to be run on save load.          |
-| [on_configuration_changed](https://lua-api.factorio.com/latest/LuaBootstrap.html#LuaBootstrap.on_configuration_changed)(handler) |      |        | Register a function to be run when mod configuration changes. |
-
-![data](./.README.assets/data.png)
-
-![settings](./.README.assets/settings.png)
-
+MIT — see [LICENSE](LICENSE).
