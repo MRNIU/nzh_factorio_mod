@@ -14,6 +14,16 @@ Factorio 2.0 **整合包** Mod（`nzh_factorio_mod`），不包含任何 Lua 代
 
 **如果你打算在这里新建 `.lua` 文件，大概率选错仓库了。** 真正的代码应该放在三个被依赖的开局 Mod 里，或者新建一个专职 Mod；这个整合包故意保持无逻辑，这样底层 Mod 反复迭代时它自己可以一直稳定。
 
+## 兄弟 Mod（硬依赖）
+
+本整合包依赖 NZH 维护的三个专职 Mod——**本包自己不做任何功能**，它们才是"内容"：
+
+- [`LegendaryMechStart`](https://github.com/MRNIU/factorio_LegendaryMechStart) — 传奇机甲 + 装备网格 + 初始物品
+- [`LegendaryShipStart`](https://github.com/MRNIU/factorio_LegendaryShipStart) — 预置传奇太空飞船
+- [`BestLanding`](https://github.com/MRNIU/factorio_BestLanding) — 着陆区清理 + 行星资源 + 传奇蜘蛛
+
+**任何需要 Lua 代码的功能都不应该塞到本包里**——去上面三个仓库之一，或者新建一个专职 Mod。
+
 ## 常用命令
 
 - **运行 / 迭代**：在 Factorio Mod 列表里启用本包，下次启动时三个硬依赖会自动一起启用。没有构建步骤。（注：Claude Code 跑在 WSL、Mod 文件通过 Windows 挂载访问，Claude 无法直接启动 Factorio；这一步需要你在 Windows 侧手工操作。）
