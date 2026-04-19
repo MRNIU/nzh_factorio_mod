@@ -22,7 +22,7 @@ Declared with `?` so they only influence load order; they are not forced onto us
 
 ## Compatibility
 
-- Factorio 2.0.55 or newer.
+- Factorio 2.0.76 or newer.
 - Requires `base`, `space-age`, `quality`.
 
 ## License

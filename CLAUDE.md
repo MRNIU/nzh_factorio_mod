@@ -16,7 +16,7 @@ Factorio 2.0 **整合包** Mod（`nzh_factorio_mod`），不包含任何 Lua 代
 
 ## 常用命令
 
-- **运行 / 迭代**：在 Factorio Mod 列表里启用本包，下次启动时三个硬依赖会自动一起启用。没有构建步骤。
+- **运行 / 迭代**：在 Factorio Mod 列表里启用本包，下次启动时三个硬依赖会自动一起启用。没有构建步骤。（注：Claude Code 跑在 WSL、Mod 文件通过 Windows 挂载访问，Claude 无法直接启动 Factorio；这一步需要你在 Windows 侧手工操作。）
 - **打包发布**：把文件夹压缩成 `nzh_factorio_mod_<version>.zip`，压缩包里最外层是这个文件夹本身。版本号必须和 `info.json`、`changelog.txt` 顶条一致。
 - **Changelog 格式**：遵循 Factorio 严格格式（99 个 `-` 的分隔行、`Version:`、`Date:`、缩进的 `Changes:` 块）。写英文。
 
@@ -32,7 +32,7 @@ Factorio 2.0 **整合包** Mod（`nzh_factorio_mod`），不包含任何 Lua 代
 - `LegendaryMechStart` — 传奇机甲开局
 - `LegendaryShipStart` — 在 Nauvis 上空预置传奇太空飞船
 - `BestLanding` — 着陆区清理 + 行星专属资源 + 传奇蜘蛛
-- `base >= 2.0.55`、`space-age`、`quality` — Factorio 2.0 基础 + Space Age + Quality
+- `base >= 2.0.76`、`space-age`、`quality` — Factorio 2.0 基础 + Space Age + Quality
 
 可选依赖（`?`）仅做加载顺序提示，增删安全。
 
