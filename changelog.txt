@@ -12,7 +12,7 @@ Date: 2026-04-19
     - Added hard dependencies on LegendaryMechStart, LegendaryShipStart, BestLanding.
     - Removed built-in area cleaner, resource generator, and legendary-items logic (now provided by the dedicated mods).
     - Dropped offshore-pump placement tweak, night-vision color LUT, and hand-craft-everything data-stage changes.
-    - Rewrote README and CLAUDE.md to reflect the new meta-pack role.
+    - Rewrote README and AGENTS.md to reflect the new meta-pack role.
 
 ---------------------------------------------------------------------------------------------------
 Version: 1.4.29

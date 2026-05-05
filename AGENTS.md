@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 本文档为 Claude Code（claude.ai/code）在本仓库中工作时提供指引。
 
@@ -54,7 +54,7 @@ Factorio 2.0 **整合包** Mod（`nzh_factorio_mod`），不包含任何 Lua 代
 
 ## 语言约定
 
-- Lua 代码注释、`CLAUDE.md`：**中文**。
+- Lua 代码注释、`AGENTS.md`：**中文**。
 - `README.md`、`changelog.txt`、`info.json` 的 `description` / `title`、Mod portal 上的内容：**英文**。
 - `locale/*.cfg` 按对应语言写（`zh-CN.cfg` 自然是中文）。
 - 技术标识符（函数名、API 字段、事件名）不翻译，用反引号原样保留。
