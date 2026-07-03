@@ -4,11 +4,11 @@
 
 ## 项目定位
 
-Factorio 2.0 **整合包** Mod（`nzh_factorio_mod`），不包含任何 Lua 代码。它只是一个依赖容器，通过硬依赖一次性拉起 NZH 维护的三个开局 Mod 以及一串社区常用 QoL Mod。
+Factorio 2.1 **整合包** Mod（`nzh_factorio_mod`），不包含任何 Lua 代码。它只是一个依赖容器，通过硬依赖一次性拉起 NZH 维护的三个开局 Mod 以及一串社区常用 QoL Mod。
 
 仓库中只保留最小文件集：
 
-- `info.json` — 声明硬依赖 `LegendaryMechStart`、`LegendaryShipStart`、`BestLanding`，以及 Factorio 2.0 基础依赖 `base`、`space-age`、`quality`，再加一长串 `?` 可选社区 Mod。
+- `info.json` — 声明硬依赖 `LegendaryMechStart`、`LegendaryShipStart`、`BestLanding`，以及 Factorio 2.1 基础依赖 `base`、`space-age`、`quality`，再加一长串 `?` 可选社区 Mod。
 - `locale/zh-CN/zh-CN.cfg` — Mod 名/描述的中文翻译。
 - `README.md`、`changelog.txt`、`LICENSE`、`thumbnail.png` — 发布到 Mod portal 给其他人看的元信息。
 
@@ -42,7 +42,7 @@ Factorio 2.0 **整合包** Mod（`nzh_factorio_mod`），不包含任何 Lua 代
 - `LegendaryMechStart` — 传奇机甲开局
 - `LegendaryShipStart` — 在 Nauvis 上空预置传奇太空飞船
 - `BestLanding` — 着陆区清理 + 行星专属资源 + 传奇蜘蛛
-- `base >= 2.0.76`、`space-age`、`quality` — Factorio 2.0 基础 + Space Age + Quality
+- `base >= 2.1.9`、`space-age`、`quality` — Factorio 2.1 基础 + Space Age + Quality
 
 可选依赖（`?`）仅做加载顺序提示，增删安全。
 

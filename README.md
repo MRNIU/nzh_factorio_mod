@@ -1,6 +1,6 @@
 # nzh_factorio_mod
 
-NZH's personal Factorio 2.0 meta-pack. One install, one toggle — enables the full NZH startup-experience bundle plus a curated list of community quality-of-life mods.
+NZH's personal Factorio 2.1 meta-pack. One install, one toggle — enables the full NZH startup-experience bundle plus a curated list of community quality-of-life mods.
 
 > **Since 2.0.0 this mod contains no code.** It is a dependency container that auto-enables NZH's startup mods and, where available, a set of recommended community mods.
 
@@ -22,7 +22,7 @@ Declared with `?` so they only influence load order; they are not forced onto us
 
 ## Compatibility
 
-- Factorio 2.0.76 or newer.
+- Factorio 2.1.9 or newer.
 - Requires `base`, `space-age`, `quality`.
 
 ## License

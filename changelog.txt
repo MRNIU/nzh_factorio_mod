@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.1.0
+Date: 2026-07-03
+  Changes:
+    - Updated the meta-pack for Factorio 2.1.9 and raised the base dependency accordingly.
+    - Raised the bundled startup mod requirements to LegendaryMechStart 1.6.0, LegendaryShipStart 1.3.0, and BestLanding 1.5.0.
+
+---------------------------------------------------------------------------------------------------
 Version: 2.0.1
 Date: 2026-04-19
   Changes:
